@@ -72,6 +72,19 @@
 
 ---
 
+## 文章寫作規範
+
+### ⛔ 禁止在文章內文使用 Emoji Icon
+- **禁止**：✅ ⚠️ ❌ 🔬 💧 等 emoji 不得出現在文章正文、表格、列表中
+- **原因**：與日系科學設計風格衝突，破壞視覺一致性
+- **替代方案**：使用 CSS 證據等級系統
+  - 強證據 → `<span class="evidence-badge evidence-badge--strong">強證據</span>`
+  - 初步證據 → `<span class="evidence-badge evidence-badge--preliminary">初步證據</span>`
+  - 證據不足 → `<span class="evidence-badge evidence-badge--insufficient">證據不足</span>`
+  - 無效 → `<span class="evidence-badge evidence-badge--ineffective">無效</span>`
+- **表格中**：用色點 `<span class="evidence-dot evidence-dot--strong"></span>` 或純文字
+- **目前**：PostLayout.astro 有 JS 自動把 emoji 轉成色點（過渡方案），新文章直接不寫 emoji
+
 ## 視覺識別
 
 ### Logo 規則

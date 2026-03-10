@@ -539,6 +539,23 @@ a { color: inherit; text-decoration: none; }
   color: var(--color-evidence-ineffective);
 }
 
+/* Evidence dot — inline indicator replacing emoji ✅🔬⚠️❌ */
+.evidence-dot {
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.evidence-dot--strong { background-color: var(--color-evidence-strong); }
+.evidence-dot--preliminary { background-color: var(--color-evidence-preliminary); }
+.evidence-dot--insufficient { background-color: var(--color-evidence-insufficient); }
+.evidence-dot--ineffective { background-color: var(--color-evidence-ineffective);
+}
+
 /* ============================================
    Citation Card
    ============================================ */
