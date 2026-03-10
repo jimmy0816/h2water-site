@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --color-water: #0EA5E9;
+  --color-water-light: #7DD3FC;
+  --color-water-dark: #0369A1;
+  --color-bg: #F8FBFF;
+  --color-text: #0F172A;
+}
+
+html {
+  font-family: 'Noto Sans TC', 'system-ui', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  min-height: 100vh;
+}
+
+.prose h2, .prose h3 {
+  color: var(--color-water-dark);
+}
+
+.prose a {
+  color: var(--color-water);
+  text-decoration-color: var(--color-water-light);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose table th {
+  background-color: #EFF6FF;
+  color: var(--color-water-dark);
+}
+
+.prose table td, .prose table th {
+  border: 1px solid #BFDBFE;
+  padding: 0.5rem 0.75rem;
+}

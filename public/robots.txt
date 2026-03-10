@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://h2water.co/sitemap-index.xml

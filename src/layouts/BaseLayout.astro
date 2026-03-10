@@ -1,0 +1,106 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  lang?: string;
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    tags?: string[];
+  };
+}
+
+const {
+  title,
+  description = 'H2 Water Lab — 氫水健康科學研究室，用科學數據解答你的疑問',
+  canonical = Astro.url.href,
+  ogImage = '/og-default.png',
+  lang = 'zh',
+  article,
+} = Astro.props;
+
+const siteName = 'H2 Water Lab | 氫水科學研究室';
+const siteUrl = 'https://h2water.co';
+
+const jsonLdWebSite = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: siteUrl,
+};
+---
+
+<!DOCTYPE html>
+<html lang={lang === 'en' ? 'en' : 'zh-TW'}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | {siteName}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={article ? 'article' : 'website'} />
+  <meta property="og:title" content={`${title} | ${siteName}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={siteName} />
+  <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+  {article?.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={`${title} | ${siteName}`} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+  <!-- i18n alternates (reserved for future) -->
+  <!-- <link rel="alternate" hreflang="zh-TW" href={`${siteUrl}/zh${Astro.url.pathname}`} /> -->
+  <!-- <link rel="alternate" hreflang="en" href={`${siteUrl}/en${Astro.url.pathname}`} /> -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdWebSite)} />
+
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header style="background-color: #F8FBFF; border-bottom: 2px solid #0EA5E9;">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 no-underline">
+        <span style="font-size: 1.5rem;">💧</span>
+        <div>
+          <div style="font-weight: 700; color: #0369A1; font-size: 1.1rem;">H2 Water Lab</div>
+          <div style="font-size: 0.75rem; color: #0EA5E9; letter-spacing: 0.05em;">氫水科學研究室</div>
+        </div>
+      </a>
+      <nav class="flex gap-6 text-sm">
+        <a href="/" style="color: #0EA5E9;">首頁</a>
+        <a href="/blog" style="color: #0EA5E9;">文章</a>
+        <a href="/categories" style="color: #0EA5E9;">分類</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 max-w-4xl mx-auto px-4 py-8 w-full">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer style="background-color: #EFF6FF; border-top: 1px solid #BFDBFE; padding: 2rem 0; margin-top: 4rem;">
+    <div class="max-w-4xl mx-auto px-4 text-center text-sm" style="color: #0EA5E9;">
+      <p>© {new Date().getFullYear()} H2 Water Lab | 氫水科學研究室</p>
+      <p class="mt-1">用科學數據，回答你對氫水健康的每一個疑問</p>
+    </div>
+  </footer>
+</body>
+</html>

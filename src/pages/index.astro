@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 10);
+---
+
+<BaseLayout
+  title="H2 Water Lab | 氫水科學研究室"
+  description="用科學數據解答氫水的每一個疑問。整合 PubMed 臨床研究，幫你做出有根據的健康選擇。"
+>
+  <!-- Hero -->
+  <section class="text-center py-16 mb-12" style="border-bottom: 1px solid #BFDBFE;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">💧</div>
+    <h1 style="font-size: 2.5rem; font-weight: 700; color: #0369A1; margin-bottom: 1rem;">
+      H2 Water Lab
+    </h1>
+    <p style="font-size: 1.1rem; color: #0EA5E9; max-width: 560px; margin: 0 auto; line-height: 1.8;">
+      氫水科學研究室<br />
+      用 PubMed 論文數據，回答你對氫水健康的每一個疑問。
+    </p>
+  </section>
+
+  <!-- Latest Posts -->
+  <section>
+    <h2 style="font-size: 1.5rem; font-weight: 700; color: #0369A1; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #0EA5E9;">
+      最新研究
+    </h2>
+
+    {posts.length === 0 ? (
+      <p style="color: #0EA5E9;">文章整理中，敬請期待...</p>
+    ) : (
+      <div style="display: grid; gap: 1.5rem;">
+        {posts.map((post) => (
+          <article style="padding: 1.5rem; background: white; border: 1px solid #BFDBFE; border-radius: 8px;">
+            <div class="flex items-center gap-2 mb-2">
+              <span style="font-size: 0.75rem; padding: 2px 8px; background: #EFF6FF; color: #0EA5E9; border-radius: 4px;">
+                {post.data.category}
+              </span>
+              <span style="font-size: 0.8rem; color: #93C5FD;">
+                {post.data.pubDate.toLocaleDateString('zh-TW')}
+              </span>
+            </div>
+            <h3 style="font-size: 1.2rem; font-weight: 600; color: #0369A1; margin-bottom: 0.5rem;">
+              <a href={`/blog/${post.slug}`} style="color: #0369A1; text-decoration: none;">
+                {post.data.title}
+              </a>
+            </h3>
+            <p style="color: #334155; font-size: 0.95rem; line-height: 1.6;">
+              {post.data.description}
+            </p>
+            <a href={`/blog/${post.slug}`} style="display: inline-block; margin-top: 0.75rem; font-size: 0.875rem; color: #0EA5E9; font-weight: 500;">
+              閱讀全文 →
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
