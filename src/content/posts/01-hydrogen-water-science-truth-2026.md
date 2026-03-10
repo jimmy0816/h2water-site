@@ -5,6 +5,8 @@ pubDate: 2026-03-10
 category: "氫水科學"
 tags: ["氫水功效", "氫水研究", "抗氧化", "分子氫"]
 author: "H2 Water Lab"
+evidenceLevel: "preliminary"
+readingTime: 12
 draft: false
 lang: "zh"
 ---

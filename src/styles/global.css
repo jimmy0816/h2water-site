@@ -781,17 +781,19 @@ a { color: inherit; text-decoration: none; }
 .prose h2 {
   font-size: var(--text-h2); font-weight: 700;
   color: var(--color-secondary-900);
-  margin-top: var(--space-16); margin-bottom: var(--space-6);
+  margin-top: var(--space-12); margin-bottom: var(--space-6);
   letter-spacing: 0.01em; line-height: 1.35;
   padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--color-secondary-200);
   scroll-margin-top: 96px;
+  position: relative;
 }
 .prose h3 {
   font-size: var(--text-h3); font-weight: 600;
   color: var(--color-secondary-700);
   margin-top: var(--space-10); margin-bottom: var(--space-4);
   scroll-margin-top: 96px;
+  position: relative;
 }
 .prose h4 {
   font-size: var(--text-h4); font-weight: 700;
@@ -845,6 +847,27 @@ a { color: inherit; text-decoration: none; }
   font-style: italic;
   background: var(--color-primary-50);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.prose hr {
+  margin-block: 64px;
+  border: none;
+  border-top: 1px solid var(--color-secondary-200);
+}
+/* Heading anchor hover indicator */
+.prose h2:hover::before,
+.prose h3:hover::before {
+  content: '§';
+  position: absolute;
+  left: -1.4em;
+  color: var(--color-secondary-300);
+  font-weight: 400;
+  font-size: 0.85em;
+  line-height: inherit;
+  pointer-events: none;
+}
+/* Table: explicit border */
+.prose table {
+  border: 1px solid var(--color-secondary-200);
 }
 
 /* ============================================
@@ -1288,28 +1311,29 @@ a { color: inherit; text-decoration: none; }
 
 .post-content { min-width: 0; }
 
-.post-header { padding-block: var(--space-8) var(--space-6); }
+.post-header { padding-block: var(--space-8) 0; }
 .post-header-meta {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   flex-wrap: wrap;
-  margin-bottom: var(--space-4);
+  margin-bottom: 20px;
 }
 .post-title {
   font-size: clamp(1.75rem, 4vw, var(--text-h1));
   font-weight: 700;
   color: var(--color-secondary-900);
   line-height: 1.35;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 .post-description {
   font-size: var(--text-body-lg);
   color: var(--color-secondary-500);
   line-height: 1.75;
   max-width: 640px;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
 }
+.post-header .article-meta { margin-bottom: 40px; }
 
 .post-footer {
   margin-top: var(--space-16);
@@ -1331,16 +1355,18 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-5);
+  padding: 8px 20px;
   border: 1px solid var(--color-secondary-200);
-  border-radius: var(--radius-full);
+  border-radius: 3px;
   background: #FFFFFF;
   font-size: var(--text-body-sm);
+  font-weight: 500;
   color: var(--color-secondary-600);
   cursor: pointer;
-  transition: border-color var(--duration-fast), color var(--duration-fast);
+  transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
+  font-family: var(--font-family-primary);
 }
-.feedback-btn:hover { border-color: var(--color-primary-400); color: var(--color-primary-600); }
+.feedback-btn:hover { border-color: var(--color-primary-400); color: var(--color-primary-600); background: var(--color-primary-50); }
 
 /* Citation card (PostLayout uses citation-card / citation-journal) */
 .citation-card {
@@ -1693,3 +1719,104 @@ a { color: inherit; text-decoration: none; }
 .v4-fade-1 { animation-delay: 150ms; }
 .v4-fade-2 { animation-delay: 250ms; }
 .v4-fade-3 { animation-delay: 350ms; }
+
+/* ── Tag variants (P3) ── */
+.tag-category {
+  background: transparent !important;
+  border: 1px solid var(--color-secondary-200) !important;
+  color: var(--color-secondary-600) !important;
+}
+.tag-category:hover { background: var(--color-secondary-50) !important; color: var(--color-secondary-700) !important; }
+
+.tag-topic {
+  background: var(--color-primary-50) !important;
+  color: var(--color-primary-600) !important;
+  border: none !important;
+}
+.tag-topic:hover { background: var(--color-primary-100) !important; }
+
+/* ── Related Articles section ── */
+.related-articles { margin-top: var(--space-8); }
+.related-articles-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-secondary-800);
+  margin-bottom: var(--space-6);
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.related-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+@media (min-width: 640px) { .related-cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .related-cards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.related-card {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid var(--color-secondary-200);
+  border-radius: 6px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--duration-normal) var(--easing-default),
+              transform var(--duration-normal) var(--easing-default);
+}
+.related-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.related-card-thumb {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.related-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.related-card-placeholder {
+  font-family: var(--font-family-display);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--color-primary-400);
+  opacity: 0.4;
+  user-select: none;
+}
+
+.related-card-body {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+.related-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.related-card-title {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--color-secondary-800);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.related-card:hover .related-card-title { color: var(--color-primary-700); }
+.related-card-desc {
+  font-size: var(--text-body-sm);
+  color: var(--color-secondary-500);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
