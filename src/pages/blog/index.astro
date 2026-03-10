@@ -5,169 +5,185 @@ import { getCollection } from 'astro:content';
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Get all unique categories
 const categories = [...new Set(posts.map(p => p.data.category))].filter(Boolean);
 
 function formatDate(date: Date) {
-  return date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'short', day: 'numeric' });
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}.${m}.${d}`;
 }
 
-function evidenceBadgeClass(level?: string) {
-  const map: Record<string, string> = {
-    strong: 'strong', preliminary: 'preliminary',
-    insufficient: 'insufficient', ineffective: 'ineffective',
+const evidenceConfig: Record<string, { label: string; color: string; bg: string }> = {
+  strong:      { label: '強證據',  color: '#059669', bg: '#ECFDF5' },
+  preliminary: { label: '初步證據', color: '#2563EB', bg: '#EFF6FF' },
+  insufficient:{ label: '證據不足', color: '#D97706', bg: '#FFFBEB' },
+  ineffective: { label: '無效',    color: '#DC2626', bg: '#FEF2F2' },
+};
+
+const evidenceLevels = [
+  { key: 'strong',      label: '強證據',  desc: '多個 RCT 支持',    color: '#059669', bg: '#ECFDF5' },
+  { key: 'preliminary', label: '初步證據', desc: '小型試驗 / 動物實驗', color: '#2563EB', bg: '#EFF6FF' },
+  { key: 'insufficient',label: '證據不足', desc: '個案 / 體外實驗',   color: '#D97706', bg: '#FFFBEB' },
+  { key: 'ineffective', label: '無效',    desc: '已被研究否定',      color: '#DC2626', bg: '#FEF2F2' },
+];
+
+function eviSvg(key: string, size = 13, color = 'currentColor') {
+  const svgs: Record<string, string> = {
+    strong: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="2" fill="${color}" stroke="none"/></svg>`,
+    preliminary: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><path d="M7 1.5 A5.5 5.5 0 0 0 7 12.5 Z" fill="${color}" stroke="none"/></svg>`,
+    insufficient: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><path d="M9.5 2.2 A5.5 5.5 0 1 1 4.5 2.2"/></svg>`,
+    ineffective: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><line x1="3.5" y1="3.5" x2="10.5" y2="10.5"/></svg>`,
   };
-  return level ? map[level] ?? 'preliminary' : '';
+  return svgs[key] ?? '';
 }
 
-function evidenceBadgeLabel(level?: string) {
-  const map: Record<string, string> = {
-    strong: '✅ 強證據', preliminary: '🔬 初步證據',
-    insufficient: '⚠️ 證據不足', ineffective: '❌ 無效/誤導',
-  };
-  return level ? map[level] : '';
-}
+const moleculeSvg = `<svg width="48" height="48" viewBox="0 0 40 40" fill="none" stroke="var(--color-primary-500)" stroke-width="1" opacity="0.25" aria-hidden="true"><circle cx="14" cy="16" r="7"/><circle cx="26" cy="16" r="7"/><circle cx="20" cy="28" r="9"/></svg>`;
+
+const arrowSvg = `<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" aria-hidden="true"><line x1="2" y1="8" x2="13" y2="8"/><polyline points="9 4 13 8 9 12"/></svg>`;
 ---
 
 <BaseLayout
   title="科學文章 — H₂ Water Lab"
   description="所有氫水科學文章，每篇均標示科學證據等級。氫水科學、研究文獻、健康應用、產品評測。"
 >
-  <div style="background: linear-gradient(180deg, var(--color-mist) 0%, var(--color-snow) 100%); padding: var(--space-5xl) 0 var(--space-3xl);">
-    <div class="container">
-      <div style="max-width: 600px;">
-        <p style="font-family: var(--font-mono); font-size: 12px; color: var(--color-aqua); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;">科學文章</p>
-        <h1 style="font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: var(--color-ink); margin-bottom: 16px; letter-spacing: -0.02em;">
-          氫水科學文章庫
-        </h1>
-        <p style="font-size: 16px; color: var(--color-slate); line-height: 1.7;">
-          每篇文章均標示科學證據等級，讓你一眼辨識研究可靠性。
-        </p>
-      </div>
-    </div>
-  </div>
+  <div class="v4-home-wrap">
+    <!-- Hero -->
+    <header class="v4-home-hero v4-fade">
+      <div class="v4-home-hero-label">科學文章</div>
+      <h1>氫水科學文章庫</h1>
+      <p>每篇文章均標示科學證據等級，讓你一眼辨識研究可靠性。</p>
+    </header>
 
-  <section class="section-sm">
-    <div class="container">
-      <div class="blog-layout">
+    <!-- Main grid -->
+    <div class="v4-main-layout">
 
-        <!-- Main Content -->
-        <div>
-          <!-- Filter tags row (mobile visible) -->
-          {categories.length > 0 && (
-            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: var(--space-2xl);">
-              <a href="/blog/" class="tag" style="background: var(--color-aqua); color: white;">全部</a>
-              {categories.map(cat => (
-                <a href={`/categories/${cat}/`} class="tag">{cat}</a>
-              ))}
-            </div>
-          )}
+      <!-- LEFT: Posts -->
+      <div>
+        <!-- Category filter chips -->
+        {categories.length > 0 && (
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;">
+            <a href="/blog/" class="chip chip--active">全部</a>
+            {categories.map(cat => (
+              <a href={`/categories/${cat}/`} class="chip">{cat}</a>
+            ))}
+          </div>
+        )}
 
-          <!-- Posts List -->
-          <div class="posts-list">
-            {posts.map(post => (
-              <article class="post-list-item reveal">
-                <div class="post-list-image">
-                  {post.data.image ? (
-                    <img src={post.data.image} alt={post.data.title} loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
-                  ) : (
-                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#E0F2FE,#DBEAFE);">
-                      <span style="font-size:36px;opacity:0.5;">💧</span>
-                    </div>
+        <!-- Posts list -->
+        <div class="v4-cards-list">
+          {posts.map((post, idx) => {
+            const evi = post.data.evidenceLevel ? evidenceConfig[post.data.evidenceLevel] : null;
+            return (
+              <article class={`v4-card v4-fade v4-fade-${Math.min(idx + 1, 3)}`}>
+                <!-- Thumbnail -->
+                <div class="v4-card-thumb">
+                  <Fragment set:html={moleculeSvg} />
+                  {post.data.readingTime && (
+                    <span class="v4-card-papers">{post.data.readingTime} min</span>
                   )}
                 </div>
-                <div class="post-list-body">
-                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
-                    <a href={`/categories/${post.data.category}/`} class="tag">{post.data.category}</a>
-                    {post.data.evidenceLevel && (
-                      <span class={`evidence-badge evidence-badge--${evidenceBadgeClass(post.data.evidenceLevel)}`}>
-                        {evidenceBadgeLabel(post.data.evidenceLevel)}
+
+                <!-- Content -->
+                <div class="v4-card-body">
+                  <div class="v4-card-meta">
+                    <a href={`/categories/${post.data.category}/`} class="v4-cat-badge"
+                       style="text-decoration:none;">
+                      {post.data.category}
+                    </a>
+                    {evi && post.data.evidenceLevel && (
+                      <span
+                        class="v4-evi-badge"
+                        style={`background:${evi.bg};color:${evi.color}`}
+                      >
+                        <Fragment set:html={eviSvg(post.data.evidenceLevel, 13, evi.color)} />
+                        {evi.label}
                       </span>
                     )}
                   </div>
-                  <h2 style="font-size: 18px; font-weight: 700; color: var(--color-ink); margin-bottom: 8px; line-height: 1.4;">
-                    <a href={`/blog/${post.slug}/`} style="color: inherit; text-decoration: none; transition: color 0.15s;"
-                       onmouseover="this.style.color='var(--color-aqua)'"
-                       onmouseout="this.style.color='inherit'">
-                      {post.data.title}
-                    </a>
+
+                  <h2 class="v4-card-title">
+                    <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
                   </h2>
-                  <p style="font-size: 14px; color: var(--color-slate); line-height: 1.65; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                    {post.data.description}
-                  </p>
-                  <div style="display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--color-slate);">
-                    <time datetime={post.data.pubDate.toISOString()} style="font-family: var(--font-mono);">
-                      {formatDate(post.data.pubDate)}
-                    </time>
-                    {post.data.readingTime && (
-                      <span>📖 {post.data.readingTime} 分鐘</span>
-                    )}
-                    <a href={`/blog/${post.slug}/`} style="margin-left: auto; color: var(--color-aqua); font-weight: 500; font-size: 13px;">
-                      閱讀 →
+
+                  <p class="v4-card-excerpt">{post.data.description}</p>
+
+                  <div class="v4-card-footer">
+                    <div class="v4-card-date-row">
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {formatDate(post.data.pubDate)}
+                      </time>
+                      {post.data.readingTime && (
+                        <>
+                          <span class="v4-sep">|</span>
+                          <span>{post.data.readingTime} min</span>
+                        </>
+                      )}
+                    </div>
+                    <a href={`/blog/${post.slug}/`} class="v4-card-link" tabindex="-1" aria-hidden="true">
+                      閱讀
+                      <Fragment set:html={arrowSvg} />
                     </a>
                   </div>
                 </div>
               </article>
-            ))}
+            );
+          })}
 
-            {posts.length === 0 && (
-              <div style="text-align: center; padding: 80px 40px; color: var(--color-slate); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-silver);">
-                <p style="font-size: 48px; margin-bottom: 16px;">📝</p>
-                <p style="font-size: 18px; font-weight: 600; color: var(--color-graphite); margin-bottom: 8px;">文章即將上線</p>
-                <p>我們正在整理科學文章，敬請期待。</p>
+          {posts.length === 0 && (
+            <div style="text-align:center;padding:80px 40px;color:var(--color-secondary-500);background:#fff;border-radius:6px;border:1px solid var(--color-secondary-200);">
+              <p style="font-size:18px;font-weight:600;color:var(--color-secondary-700);margin-bottom:8px;">文章即將上線</p>
+              <p>我們正在整理科學文章，敬請期待。</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- RIGHT: Sidebar -->
+      <aside class="v4-sidebar v4-fade v4-fade-3">
+        <!-- Categories -->
+        <div class="v4-sidebar-widget">
+          <div class="v4-sidebar-title">文章分類</div>
+          {categories.map(cat => {
+            const count = posts.filter(p => p.data.category === cat).length;
+            return (
+              <a href={`/categories/${cat}/`} class="v4-sidebar-cat-btn" style="text-decoration:none;">
+                <span>{cat}</span>
+                <span class="v4-sidebar-cat-count">{count}</span>
+              </a>
+            );
+          })}
+        </div>
+
+        <!-- Evidence Guide -->
+        <div class="v4-sidebar-widget">
+          <div class="v4-sidebar-title">證據等級</div>
+          <div class="v4-sidebar-evi-wrap">
+            {evidenceLevels.map(ev => (
+              <div class="v4-sidebar-evi-row">
+                <span
+                  class="v4-sidebar-evi-badge"
+                  style={`background:${ev.bg};color:${ev.color}`}
+                >
+                  <Fragment set:html={eviSvg(ev.key, 12, ev.color)} />
+                  {ev.label}
+                </span>
+                <span class="v4-sidebar-evi-desc">{ev.desc}</span>
               </div>
-            )}
+            ))}
           </div>
         </div>
 
-        <!-- Sidebar -->
-        <aside class="blog-sidebar">
-          <!-- Categories -->
-          <div class="sidebar-widget">
-            <div class="sidebar-widget-title">文章分類</div>
-            <ul class="sidebar-category-list">
-              {categories.map(cat => {
-                const count = posts.filter(p => p.data.category === cat).length;
-                return (
-                  <li>
-                    <a href={`/categories/${cat}/`}>
-                      <span>{cat}</span>
-                      <span style="font-family: var(--font-mono); font-size: 12px; background: var(--color-mist); padding: 2px 7px; border-radius: 9999px;">{count}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <!-- Evidence Guide -->
-          <div class="sidebar-widget">
-            <div class="sidebar-widget-title">證據等級說明</div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-              {[
-                { cls: 'strong', label: '✅ 強證據', desc: '多個 RCT 支持' },
-                { cls: 'preliminary', label: '🔬 初步證據', desc: '初步 RCT，待確認' },
-                { cls: 'insufficient', label: '⚠️ 證據不足', desc: '動物或小樣本為主' },
-                { cls: 'ineffective', label: '❌ 無效/誤導', desc: '研究顯示無效' },
-              ].map(item => (
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                  <span class={`evidence-badge evidence-badge--${item.cls}`} style="width: fit-content;">{item.label}</span>
-                  <span style="font-size: 12px; color: var(--color-slate); padding-left: 2px;">{item.desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <!-- About mini -->
-          <div class="sidebar-widget" style="background: linear-gradient(135deg, var(--color-aqua-dark), var(--color-aqua)); color: white; border: none;">
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: white;">關於本站</div>
-            <p style="font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 12px;">
-              H₂ Water Lab 以科學為本，不信廣告，只信證據。
-            </p>
-            <a href="/about/" style="font-size: 13px; color: white; font-weight: 500; text-decoration: underline;">了解我們的方法論 →</a>
-          </div>
-        </aside>
-      </div>
+        <!-- About mini -->
+        <div class="v4-newsletter-widget">
+          <div class="v4-newsletter-title">每月科學摘要</div>
+          <div class="v4-newsletter-desc">只有研究，沒有推銷。</div>
+          <form class="v4-newsletter-form" action="#" onsubmit="return false;">
+            <input type="email" placeholder="email" class="v4-newsletter-input" aria-label="電子郵件地址" />
+            <button type="submit" class="v4-newsletter-btn">訂閱</button>
+          </form>
+        </div>
+      </aside>
     </div>
-  </section>
+  </div>
 </BaseLayout>

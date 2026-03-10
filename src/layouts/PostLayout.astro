@@ -40,11 +40,29 @@ const evidenceBadgeClass = {
   ineffective: 'ineffective',
 };
 
+// SVG icons for evidence badges (v4)
+function eviSvgHtml(key: string, size = 13, color = 'currentColor') {
+  const svgs: Record<string, string> = {
+    strong: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="2" fill="${color}" stroke="none"/></svg>`,
+    preliminary: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><path d="M7 1.5 A5.5 5.5 0 0 0 7 12.5 Z" fill="${color}" stroke="none"/></svg>`,
+    insufficient: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><path d="M9.5 2.2 A5.5 5.5 0 1 1 4.5 2.2"/></svg>`,
+    ineffective: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><line x1="3.5" y1="3.5" x2="10.5" y2="10.5"/></svg>`,
+  };
+  return svgs[key] ?? '';
+}
+
+const evidenceBadgeColors: Record<string, { color: string; bg: string }> = {
+  strong:      { color: '#059669', bg: '#ECFDF5' },
+  preliminary: { color: '#2563EB', bg: '#EFF6FF' },
+  insufficient:{ color: '#D97706', bg: '#FFFBEB' },
+  ineffective: { color: '#DC2626', bg: '#FEF2F2' },
+};
+
 const evidenceBadgeLabel = {
-  strong: '✅ 強證據',
-  preliminary: '🔬 初步證據',
-  insufficient: '⚠️ 證據不足',
-  ineffective: '❌ 無效/誤導',
+  strong: '強證據',
+  preliminary: '初步證據',
+  insufficient: '證據不足',
+  ineffective: '無效/誤導',
 };
 
 const evidenceBadgeDesc = {
@@ -93,14 +111,19 @@ const evidenceBadgeDesc = {
             {category && (
               <a href={`/categories/${category}/`} class="tag">{category}</a>
             )}
-            {evidenceLevel && (
-              <span
-                class={`evidence-badge evidence-badge--${evidenceBadgeClass[evidenceLevel]}`}
-                title={evidenceBadgeDesc[evidenceLevel]}
-              >
-                {evidenceBadgeLabel[evidenceLevel]}
-              </span>
-            )}
+            {evidenceLevel && (() => {
+              const ec = evidenceBadgeColors[evidenceLevel];
+              return (
+                <span
+                  class={`evidence-badge evidence-badge--${evidenceBadgeClass[evidenceLevel]}`}
+                  title={evidenceBadgeDesc[evidenceLevel]}
+                  style={ec ? `background:${ec.bg};color:${ec.color};border-radius:3px` : ''}
+                >
+                  <Fragment set:html={eviSvgHtml(evidenceLevel, 13, ec?.color ?? 'currentColor')} />
+                  {evidenceBadgeLabel[evidenceLevel]}
+                </span>
+              );
+            })()}
             {tags.slice(0, 2).map(tag => (
               <span class="tag tag-mint">{tag}</span>
             ))}
@@ -111,8 +134,10 @@ const evidenceBadgeDesc = {
 
           <div class="article-meta">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary-200), var(--color-primary-500)); display: flex; align-items: center; justify-content: center; font-size: 14px;">💧</div>
-              <span style="font-size: 14px; font-weight: 500; color: var(--color-secondary-700);">{author}</span>
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary-200), var(--color-primary-500)); display: flex; align-items: center; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><circle cx="14" cy="16" r="7"/><circle cx="26" cy="16" r="7"/><circle cx="20" cy="28" r="9"/></svg>
+              </div>
+              <span style="font-size: 14px; font-weight: 600; color: var(--color-secondary-700);">{author}</span>
             </div>
             <span class="article-meta-sep">·</span>
             <time datetime={pubDate.toISOString()} style="font-family: var(--font-family-mono); font-size: 13px; color: var(--color-secondary-400);">
@@ -129,8 +154,8 @@ const evidenceBadgeDesc = {
             {readingTime && (
               <>
                 <span class="article-meta-sep">·</span>
-                <span style="font-family: var(--font-family-mono); font-size: 13px; color: var(--color-secondary-400);">
-                  📖 {readingTime} 分鐘
+                <span style="font-family: var(--font-family-mono); font-size: 13px; color: var(--color-secondary-500);">
+                  {readingTime} 分鐘
                 </span>
               </>
             )}
@@ -263,10 +288,26 @@ const evidenceBadgeDesc = {
     });
   }
 
-  // Replace emoji evidence markers with styled badges
+  // Replace emoji evidence markers with SVG icons (v4 — no emoji anywhere)
   function replaceEmojiWithBadges() {
     const article = document.getElementById('article-body');
     if (!article) return;
+
+    // SVG icon builders
+    function eviSvg(key: string, size = 13, color = 'currentColor') {
+      const svgs: Record<string, string> = {
+        strong: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="2" fill="${color}" stroke="none"/></svg>`,
+        preliminary: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><path d="M7 1.5 A5.5 5.5 0 0 0 7 12.5 Z" fill="${color}" stroke="none"/></svg>`,
+        insufficient: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><path d="M9.5 2.2 A5.5 5.5 0 1 1 4.5 2.2"/></svg>`,
+        ineffective: `<svg width="${size}" height="${size}" viewBox="0 0 14 14" fill="none" stroke="${color}" stroke-width="1.3" stroke-linecap="square" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><line x1="3.5" y1="3.5" x2="10.5" y2="10.5"/></svg>`,
+      };
+      return svgs[key] ?? '';
+    }
+
+    const colors: Record<string, string> = {
+      strong: '#059669', preliminary: '#2563EB',
+      insufficient: '#D97706', ineffective: '#DC2626',
+    };
 
     const replacements: [string, string, string][] = [
       ['✅', 'strong', '強證據'],
@@ -291,16 +332,17 @@ const evidenceBadgeDesc = {
       const parent = textNode.parentNode;
       if (!parent) return;
       let html = textNode.textContent || '';
-      for (const [emoji, level, _label] of replacements) {
-        // In headings (h2/h3), just remove the emoji
+      for (const [emoji, level, label] of replacements) {
+        // In headings, just strip the emoji
         if (parent instanceof HTMLHeadingElement) {
           html = html.replaceAll(emoji, '').trim();
           continue;
         }
-        // In table cells and lists, replace with a small dot indicator
-        const badge = `<span class="evidence-dot evidence-dot--${level}" aria-label="${_label}"></span>`;
-        html = html.replaceAll(emoji + ' ', badge);
-        html = html.replaceAll(emoji, badge);
+        // Replace with inline SVG icon
+        const color = colors[level] ?? 'currentColor';
+        const svgIcon = `<span class="evidence-svg-inline" style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:3px;" aria-label="${label}">${eviSvg(level, 13, color)}</span>`;
+        html = html.replaceAll(emoji + ' ', svgIcon);
+        html = html.replaceAll(emoji, svgIcon);
       }
       const template = document.createElement('template');
       template.innerHTML = html;
