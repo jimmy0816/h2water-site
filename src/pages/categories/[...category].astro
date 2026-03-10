@@ -4,85 +4,119 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
-  const categories = [...new Set(posts.map(p => p.data.category))];
-  return categories.map(cat => ({
-    params: { category: cat },
-    props: { posts: posts.filter(p => p.data.category === cat) }
+  const categories = [...new Set(posts.map(p => p.data.category))].filter(Boolean);
+
+  return categories.map(category => ({
+    params: { category },
+    props: {
+      category,
+      posts: posts
+        .filter(p => p.data.category === category)
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
   }));
 }
 
-const { category } = Astro.params;
-const { posts } = Astro.props;
-const sorted = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const { category, posts } = Astro.props;
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function evidenceBadgeClass(level?: string) {
+  const map: Record<string, string> = {
+    strong: 'strong', preliminary: 'preliminary',
+    insufficient: 'insufficient', ineffective: 'ineffective',
+  };
+  return level ? map[level] ?? 'preliminary' : '';
+}
+
+function evidenceBadgeLabel(level?: string) {
+  const map: Record<string, string> = {
+    strong: '✅ 強證據', preliminary: '🔬 初步證據',
+    insufficient: '⚠️ 證據不足', ineffective: '❌ 無效/誤導',
+  };
+  return level ? map[level] : '';
+}
 ---
 
 <BaseLayout
-  title={`${category} — 研究文章`}
-  description={`H2 Water Lab ${category} 分類文章，整合科學研究，附論文出處與證據等級評分`}
+  title={`${category} — H₂ Water Lab`}
+  description={`H₂ Water Lab 氫水科學研究室 — ${category} 分類下的所有文章，每篇均標示科學證據等級。`}
 >
-  <!-- Page Hero -->
-  <div style="background: linear-gradient(135deg, #F1F5F9 0%, #E0F2FE 60%, #FAFBFC 100%); padding: 60px 0 40px; border-bottom: 1px solid var(--color-silver);">
-    <div class="max-w-6xl mx-auto px-6">
-      <nav style="font-size: 0.8rem; color: var(--color-slate); margin-bottom: 1rem;">
-        <a href="/" style="color: var(--color-slate); text-decoration: none;">首頁</a>
-        <span style="margin: 0 0.5rem; opacity: 0.4;">›</span>
-        <a href="/categories" style="color: var(--color-slate); text-decoration: none;">分類</a>
-        <span style="margin: 0 0.5rem; opacity: 0.4;">›</span>
-        <span style="color: var(--color-aqua);">{category}</span>
+  <!-- Category Header -->
+  <div style="background: linear-gradient(135deg, #F1F5F9 0%, #E0F2FE 50%, #FAFBFC 100%); padding: var(--space-5xl) 0 var(--space-3xl);">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="麵包屑">
+        <a href="/">首頁</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/blog/">科學文章</a>
+        <span class="breadcrumb-sep">/</span>
+        <span style="color: var(--color-graphite);">{category}</span>
       </nav>
-      <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(8,145,178,0.08); border: 1px solid rgba(8,145,178,0.2); border-radius: 100px; padding: 4px 14px; margin-bottom: 1rem;">
-        <span style="font-size: 0.75rem; font-weight: 500; color: var(--color-aqua-dark); letter-spacing: 0.04em;">分類</span>
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+        <a href={`/categories/${category}/`} class="tag" style="background: var(--color-aqua); color: white; font-size: 13px;">{category}</a>
+        <span style="font-family: var(--font-mono); font-size: 13px; color: var(--color-slate);">{posts.length} 篇文章</span>
       </div>
-      <h1 style="font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: var(--color-ink); margin-bottom: 0.5rem;">{category}</h1>
-      <p style="color: var(--color-slate); font-size: 0.95rem; font-weight: 300;">
-        {sorted.length} 篇文章
-      </p>
+      <h1 style="font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: var(--color-ink); letter-spacing: -0.02em;">
+        {category}
+      </h1>
     </div>
   </div>
 
-  <!-- Article List -->
-  <div class="max-w-6xl mx-auto px-6 py-12">
-    {sorted.length === 0 ? (
-      <div style="text-align: center; padding: 6rem 0; color: var(--color-slate);">
-        <p style="font-size: 2rem; margin-bottom: 0.75rem;">🔬</p>
-        <p>此分類暫無文章。</p>
-        <a href="/blog" class="btn btn-primary" style="margin-top: 1.5rem; display: inline-flex;">瀏覽全部文章</a>
-      </div>
-    ) : (
-      <div style="display: grid; gap: 1.5rem;">
-        {sorted.map(post => (
-          <a href={`/blog/${post.slug}`} class="article-card" style="text-decoration: none; display: flex; flex-direction: row; align-items: stretch;">
-            <!-- Thumbnail -->
-            <div style="width: 140px; background: linear-gradient(135deg, var(--color-mist) 0%, #E0F2FE 100%); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; border-radius: var(--radius-md) 0 0 var(--radius-md);">
-              🧪
+  <section class="section-sm">
+    <div class="container">
+      <div class="posts-list">
+        {posts.map(post => (
+          <article class="post-list-item reveal">
+            <div class="post-list-image">
+              {post.data.image ? (
+                <img src={post.data.image} alt={post.data.title} loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+              ) : (
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#E0F2FE,#DBEAFE);">
+                  <span style="font-size:36px;opacity:0.5;">💧</span>
+                </div>
+              )}
             </div>
-            <!-- Body -->
-            <div class="article-card-body" style="border-radius: 0 var(--radius-md) var(--radius-md) 0;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.625rem; flex-wrap: wrap;">
-                <span class="tag tag-mint" style="font-size: 0.7rem;">{post.data.category}</span>
-                <span style="font-size: 0.75rem; color: var(--color-slate);">
-                  {post.data.pubDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'short', day: 'numeric' })}
-                </span>
+            <div class="post-list-body">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                <a href={`/categories/${post.data.category}/`} class="tag">{post.data.category}</a>
+                {post.data.evidenceLevel && (
+                  <span class={`evidence-badge ${evidenceBadgeClass(post.data.evidenceLevel)}`}>
+                    {evidenceBadgeLabel(post.data.evidenceLevel)}
+                  </span>
+                )}
               </div>
-              <h2 style="font-size: 1rem; font-weight: 700; color: var(--color-ink); line-height: 1.5; margin-bottom: 0.5rem;">
-                {post.data.title}
+              <h2 style="font-size: 18px; font-weight: 700; color: var(--color-ink); margin-bottom: 8px; line-height: 1.4;">
+                <a href={`/blog/${post.slug}/`} style="color: inherit; text-decoration: none;">
+                  {post.data.title}
+                </a>
               </h2>
-              <p style="font-size: 0.85rem; color: var(--color-slate); line-height: 1.6; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              <p style="font-size: 14px; color: var(--color-slate); line-height: 1.65; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                 {post.data.description}
               </p>
-              <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: auto;">
-                {post.data.tags.slice(0, 3).map((t: string) => (
-                  <span class="tag tag-slate" style="font-size: 0.68rem;">#{t}</span>
-                ))}
+              <div style="display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--color-slate);">
+                <time datetime={post.data.pubDate.toISOString()} style="font-family: var(--font-mono);">
+                  {formatDate(post.data.pubDate)}
+                </time>
+                {post.data.readingTime && <span>📖 {post.data.readingTime} 分鐘</span>}
+                <a href={`/blog/${post.slug}/`} style="margin-left: auto; color: var(--color-aqua); font-weight: 500;">閱讀 →</a>
               </div>
             </div>
-          </a>
+          </article>
         ))}
-      </div>
-    )}
 
-    <div style="margin-top: 3rem; text-align: center;">
-      <a href="/blog" class="btn btn-secondary">← 返回全部文章</a>
+        {posts.length === 0 && (
+          <div style="text-align: center; padding: 80px 40px; color: var(--color-slate); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-silver);">
+            <p style="font-size: 48px; margin-bottom: 16px;">📝</p>
+            <p>此分類尚無文章，敬請期待。</p>
+          </div>
+        )}
+      </div>
+
+      <div style="margin-top: var(--space-3xl);">
+        <a href="/blog/" class="btn btn-secondary">← 返回所有文章</a>
+      </div>
     </div>
-  </div>
+  </section>
 </BaseLayout>

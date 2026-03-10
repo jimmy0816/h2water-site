@@ -2,232 +2,294 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('posts', ({ data }) => !data.draft))
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const latestPosts = posts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const features = [
-  {
-    icon: '⚛️',
-    title: '最小的分子',
-    desc: 'H₂ 是宇宙中最小的分子，能穿透細胞膜、血腦屏障，到達其他抗氧化劑無法抵達的地方。',
-    tag: '基礎科學',
-  },
-  {
-    icon: '🛡️',
-    title: '選擇性抗氧化',
-    desc: '分子氫只與最毒的活性氧（OH·、ONOO⁻）反應，不影響生理必需的 H₂O₂。',
-    tag: '機制研究',
-  },
-  {
-    icon: '✓',
-    title: '安全性極高',
-    desc: '人體本身腸道菌群每天就會產生氫氣，飲用氫水的安全性已在多項人體試驗中確認。',
-    tag: '安全評估',
-  },
-];
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+}
 
-const evidenceLevels = [
-  {
-    badge: 'strong',
-    emoji: '✅',
-    level: '強證據',
-    grade: 'A',
-    desc: '多篇人體隨機對照試驗（RCT），樣本數充足，結果一致。',
-  },
-  {
-    badge: 'preliminary',
-    emoji: '🔬',
-    level: '初步證據',
-    grade: 'B',
-    desc: '少量人體研究或動物實驗，有潛力但需更多驗證。',
-  },
-  {
-    badge: 'insufficient',
-    emoji: '⚠️',
-    level: '證據不足',
-    grade: 'C',
-    desc: '缺乏足夠規模的研究，目前無法得出可靠結論。',
-  },
-  {
-    badge: 'ineffective',
-    emoji: '❌',
-    level: '無效',
-    grade: 'D',
-    desc: '研究顯示無明顯效果，或機制上不合理。',
-  },
-];
+function evidenceBadgeClass(level?: string) {
+  const map: Record<string, string> = {
+    strong: 'strong',
+    preliminary: 'preliminary',
+    insufficient: 'insufficient',
+    ineffective: 'ineffective',
+  };
+  return level ? map[level] : 'preliminary';
+}
+
+function evidenceBadgeLabel(level?: string) {
+  const map: Record<string, string> = {
+    strong: '✅ 強證據',
+    preliminary: '🔬 初步證據',
+    insufficient: '⚠️ 證據不足',
+    ineffective: '❌ 無效/誤導',
+  };
+  return level ? map[level] : '🔬 初步證據';
+}
 ---
 
 <BaseLayout
-  title="H2 Water Lab | 氫水科學研究室"
-  description="用科學數據解答氫水的每一個疑問。整合 PubMed 臨床研究，幫你做出有根據的健康選擇。"
+  title="H₂ Water Lab 氫水科學研究室 — 用科學，重新認識水"
+  description="H₂ Water Lab 以嚴謹的科學態度評估氫水研究，提供台灣讀者正確、可驗證的健康資訊。每篇文章標註科學證據等級。"
 >
-  <!-- ============ HERO ============ -->
-  <section class="hero-section">
-    <div class="max-w-6xl mx-auto px-6 w-full relative z-10">
-      <div class="max-w-xl">
-        <!-- Tagline pill -->
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(8,145,178,0.08); border: 1px solid rgba(8,145,178,0.2); border-radius: 100px; padding: 4px 14px; margin-bottom: 1.5rem;">
-          <span style="width: 6px; height: 6px; background: var(--color-aqua); border-radius: 50%; display: block;"></span>
-          <span style="font-size: 0.78rem; font-weight: 500; color: var(--color-aqua-dark); letter-spacing: 0.04em;">氫水研究室 · 科學實證</span>
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-eyebrow">氫水科學研究室</div>
+          <h1 class="hero-title">
+            用科學，<br />
+            <span class="accent">重新認識水</span>
+          </h1>
+          <p class="hero-subtitle">
+            H₂ Water Lab 以嚴謹的科學態度評估氫水相關研究，<br />
+            提供台灣讀者正確、可驗證的健康資訊。
+          </p>
+          <div class="hero-actions">
+            <a href="/blog/" class="btn btn-primary">瀏覽科學文章</a>
+            <a href="/about/#methodology" class="btn btn-secondary">我們的方法論</a>
+          </div>
         </div>
 
-        <h1 class="hero-title" style="margin-bottom: 1.25rem;">
-          用科學，<br />重新認識水
-        </h1>
-        <p class="hero-subtitle" style="max-width: 440px; margin-bottom: 2rem;">
-          整合 PubMed 臨床研究，<br />
-          給你不偏不倚的氫水科學答案。<br />
-          每個宣稱，都有論文為證。
+        <!-- Water Molecule SVG Decoration -->
+        <div class="hero-decoration" aria-hidden="true">
+          <svg
+            width="360"
+            height="360"
+            viewBox="0 0 360 360"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Outer ring hint -->
+            <circle cx="180" cy="180" r="155" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="4 8" opacity="0.4"/>
+
+            <!-- Molecule bonds -->
+            <line x1="120" y1="180" x2="180" y2="120" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="180" y1="120" x2="240" y2="180" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="240" y1="180" x2="210" y2="255" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="180" y1="120" x2="180" y2="55" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+            <line x1="120" y1="180" x2="55" y2="165" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+            <line x1="240" y1="180" x2="305" y2="165" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Central O atom (large) -->
+            <circle cx="180" cy="120" r="36" fill="url(#gradCenter)" opacity="0.92"/>
+            <text x="180" y="126" text-anchor="middle" font-size="18" font-weight="700" font-family="'JetBrains Mono', monospace" fill="white">O</text>
+
+            <!-- H atoms -->
+            <circle cx="120" cy="180" r="26" fill="url(#gradH1)" opacity="0.88"/>
+            <text x="120" y="186" text-anchor="middle" font-size="14" font-weight="700" font-family="'JetBrains Mono', monospace" fill="white">H</text>
+
+            <circle cx="240" cy="180" r="26" fill="url(#gradH2)" opacity="0.88"/>
+            <text x="240" y="186" text-anchor="middle" font-size="14" font-weight="700" font-family="'JetBrains Mono', monospace" fill="white">H</text>
+
+            <!-- Smaller accent atoms -->
+            <circle cx="210" cy="255" r="18" fill="#5EEAD4" opacity="0.5"/>
+            <circle cx="180" cy="55" r="14" fill="#22D3EE" opacity="0.45"/>
+            <circle cx="55" cy="165" r="14" fill="#22D3EE" opacity="0.35"/>
+            <circle cx="305" cy="165" r="14" fill="#22D3EE" opacity="0.35"/>
+
+            <!-- H₂ label near bottom -->
+            <text x="210" y="259" text-anchor="middle" font-size="9" font-weight="700" font-family="'JetBrains Mono', monospace" fill="#0F172A" opacity="0.6">H₂</text>
+
+            <defs>
+              <radialGradient id="gradCenter" cx="40%" cy="35%">
+                <stop offset="0%" stop-color="#22D3EE"/>
+                <stop offset="100%" stop-color="#0891B2"/>
+              </radialGradient>
+              <radialGradient id="gradH1" cx="40%" cy="35%">
+                <stop offset="0%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#0284C7"/>
+              </radialGradient>
+              <radialGradient id="gradH2" cx="40%" cy="35%">
+                <stop offset="0%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#0284C7"/>
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== WHY H₂ ====== -->
+  <section class="section" style="background: white;">
+    <div class="container">
+      <div class="section-header centered">
+        <p style="font-family: var(--font-mono); font-size: 12px; color: var(--color-aqua); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px;">為什麼是氫水？</p>
+        <h2 class="section-title">H₂ 的三個科學特性</h2>
+        <p class="section-subtitle">
+          不是每一種健康水都有科學依據。了解氫水為什麼值得關注。
         </p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="/blog" class="btn btn-primary">探索研究文章 →</a>
-          <a href="/categories" class="btn btn-secondary">按分類瀏覽</a>
+      </div>
+
+      <div class="feature-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card reveal">
+          <div class="feature-icon">⚛️</div>
+          <h3 class="feature-title">自然界最小分子</h3>
+          <p class="feature-desc">
+            H₂ 是自然界中最小的分子，可穿透細胞膜甚至血腦屏障，直接到達細胞內部。這是其他抗氧化物質難以做到的。
+          </p>
+          <div style="margin-top: 16px;">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-aqua); background: var(--color-mist); padding: 3px 8px; border-radius: 4px;">MW: 2.016 g/mol</span>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">選擇性抗氧化</h3>
+          <p class="feature-desc">
+            H₂ 只中和有害的羥自由基（·OH）和過氧亞硝酸根（ONOO⁻），不影響人體需要的氧化物，如用於免疫殺菌的 H₂O₂。
+          </p>
+          <div style="margin-top: 16px;">
+            <span class="evidence-badge preliminary">🔬 初步證據</span>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">🏛️</div>
+          <h3 class="feature-title">安全性高</h3>
+          <p class="feature-desc">
+            氫氣已被日本厚生勞動省認定為食品添加物（2016年），且多個人體臨床試驗顯示良好的安全性與耐受性。
+          </p>
+          <div style="margin-top: 16px;">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: #0F766E; background: #CCFBF1; padding: 3px 8px; border-radius: 4px;">日本厚勞省認定 2016</span>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Water Molecule SVG Decoration -->
-    <svg class="water-molecule-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- Central H₂O cluster -->
-      <circle cx="200" cy="200" r="28" stroke="#0891B2" stroke-width="2"/>
-      <circle cx="290" cy="140" r="20" stroke="#0891B2" stroke-width="2"/>
-      <circle cx="130" cy="130" r="16" stroke="#22D3EE" stroke-width="1.5"/>
-      <circle cx="310" cy="270" r="22" stroke="#0891B2" stroke-width="2"/>
-      <circle cx="120" cy="280" r="14" stroke="#22D3EE" stroke-width="1.5"/>
-      <circle cx="240" cy="320" r="12" stroke="#5EEAD4" stroke-width="1.5"/>
-      <circle cx="80" cy="200" r="10" stroke="#5EEAD4" stroke-width="1.5"/>
-      <circle cx="350" cy="190" r="10" stroke="#5EEAD4" stroke-width="1.5"/>
-      <!-- Bonds -->
-      <line x1="200" y1="200" x2="290" y2="140" stroke="#0891B2" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <line x1="200" y1="200" x2="130" y2="130" stroke="#22D3EE" stroke-width="1" stroke-dasharray="4 3"/>
-      <line x1="200" y1="200" x2="310" y2="270" stroke="#0891B2" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <line x1="200" y1="200" x2="120" y2="280" stroke="#22D3EE" stroke-width="1" stroke-dasharray="4 3"/>
-      <line x1="200" y1="200" x2="240" y2="320" stroke="#5EEAD4" stroke-width="1" stroke-dasharray="4 3"/>
-      <line x1="200" y1="200" x2="80" y2="200" stroke="#5EEAD4" stroke-width="1" stroke-dasharray="4 3"/>
-      <line x1="200" y1="200" x2="350" y2="190" stroke="#5EEAD4" stroke-width="1" stroke-dasharray="4 3"/>
-      <line x1="290" y1="140" x2="310" y2="270" stroke="#0891B2" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
-      <!-- Labels -->
-      <text x="192" y="205" font-family="JetBrains Mono, monospace" font-size="13" fill="#0891B2" text-anchor="middle">H₂</text>
-      <text x="290" y="145" font-family="JetBrains Mono, monospace" font-size="10" fill="#0891B2" text-anchor="middle">O</text>
-      <text x="310" y="275" font-family="JetBrains Mono, monospace" font-size="11" fill="#0891B2" text-anchor="middle">H₂O</text>
-    </svg>
   </section>
 
-  <!-- ============ WHY H₂ ============ -->
+  <!-- ====== LATEST POSTS ====== -->
   <section class="section" style="background: var(--color-mist);">
-    <div class="max-w-6xl mx-auto px-6">
-      <div style="text-align: center; margin-bottom: 3rem;">
-        <h2 class="section-title">為什麼是氫水？</h2>
-        <p class="section-subtitle">分子氫（H₂）三個不容忽視的科學特性</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {features.map(f => (
-          <div class="feature-card">
-            <span class="feature-icon">{f.icon}</span>
-            <div style="display: inline-flex; margin-bottom: 0.75rem;">
-              <span class="tag tag-aqua">{f.tag}</span>
-            </div>
-            <h3 class="feature-title">{f.title}</h3>
-            <p class="feature-desc">{f.desc}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <hr class="section-divider" />
-
-  <!-- ============ LATEST ARTICLES ============ -->
-  <section class="section">
-    <div class="max-w-6xl mx-auto px-6">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+    <div class="container">
+      <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
         <div>
-          <h2 class="section-title">最新研究文章</h2>
-          <p class="section-subtitle">每篇都附論文出處與證據等級評分</p>
+          <p style="font-family: var(--font-mono); font-size: 12px; color: var(--color-aqua); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px;">最新文章</p>
+          <h2 class="section-title" style="margin-bottom: 4px;">科學文章</h2>
+          <p class="section-subtitle" style="margin-bottom: 0;">每篇文章均標註科學證據等級</p>
         </div>
-        <a href="/blog" class="btn btn-secondary" style="font-size: 0.8rem;">查看全部文章 →</a>
+        <a href="/blog/" class="btn btn-secondary">全部文章 →</a>
       </div>
 
-      {posts.length === 0 ? (
-        <div style="text-align: center; padding: 4rem 0; color: var(--color-slate);">
-          <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔬</p>
-          <p>研究文章整理中，敬請期待…</p>
-        </div>
-      ) : (
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <a href={`/blog/${post.slug}`} class="article-card" style="text-decoration: none;">
-              <!-- Card Image Placeholder (16:9) -->
-              <div style="aspect-ratio: 16/9; background: linear-gradient(135deg, var(--color-mist) 0%, #E0F2FE 100%); display: flex; align-items: center; justify-content: center; color: var(--color-aqua); font-size: 2rem;">
-                🧪
-              </div>
-              <div class="article-card-body">
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
-                  <span class="tag tag-mint">{post.data.category}</span>
-                  <span style="font-size: 0.75rem; color: var(--color-slate);">
-                    {post.data.pubDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'short', day: 'numeric' })}
-                  </span>
+      <div class="posts-grid">
+        {latestPosts.map((post, i) => (
+          <article class={`post-card reveal${i > 0 ? ` reveal-delay-${i}` : ''}`}>
+            <div class="post-card-image">
+              {post.data.image ? (
+                <img
+                  src={post.data.image}
+                  alt={post.data.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#E0F2FE,#DBEAFE);">
+                  <span style="font-size:40px;opacity:0.5;">💧</span>
                 </div>
-                <h3 style="font-size: 1rem; font-weight: 700; color: var(--color-ink); line-height: 1.5; margin-bottom: 0.625rem; flex: 1;">
-                  {post.data.title}
-                </h3>
-                <p style="font-size: 0.85rem; color: var(--color-slate); line-height: 1.6; margin-bottom: 1rem; flex: 1;">
-                  {post.data.description}
-                </p>
-                <div style="font-size: 0.8rem; color: var(--color-aqua); font-weight: 500; margin-top: auto;">
-                  閱讀全文 →
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
-
-  <hr class="section-divider" />
-
-  <!-- ============ EVIDENCE LEVEL EXPLAINER ============ -->
-  <section class="section" style="background: var(--color-mist);">
-    <div class="max-w-6xl mx-auto px-6">
-      <div style="text-align: center; margin-bottom: 3rem;">
-        <h2 class="section-title">本站的證據等級系統</h2>
-        <p class="section-subtitle">每個健康宣稱都必須標注等級 — 讓你一眼判斷可信度</p>
-      </div>
-
-      <div class="evidence-legend">
-        {evidenceLevels.map(item => (
-          <div class="evidence-legend-item">
-            <span class={`evidence-badge ${item.badge}`} style="flex-shrink: 0;">
-              {item.emoji} {item.level}
-            </span>
-            <div>
-              <p class="evidence-legend-desc">{item.desc}</p>
+              )}
             </div>
-          </div>
+            <div class="post-card-body">
+              <div class="post-card-meta">
+                <a href={`/categories/${post.data.category}/`} class="tag">{post.data.category}</a>
+                {post.data.evidenceLevel && (
+                  <span class={`evidence-badge ${evidenceBadgeClass(post.data.evidenceLevel)}`}>
+                    {evidenceBadgeLabel(post.data.evidenceLevel)}
+                  </span>
+                )}
+              </div>
+              <h3 class="post-card-title">
+                <a href={`/blog/${post.slug}/`} style="color: inherit; text-decoration: none;">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="post-card-excerpt">{post.data.description}</p>
+              <div class="post-card-footer">
+                <time class="post-card-date" datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+                {post.data.readingTime && (
+                  <span class="post-card-reading-time">📖 {post.data.readingTime} 分鐘</span>
+                )}
+              </div>
+            </div>
+          </article>
         ))}
-      </div>
 
-      <p style="text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--color-slate);">
-        等級評定參考標準：GRADE system、Cochrane 系統性回顧方法論
-      </p>
+        {latestPosts.length === 0 && (
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px; color: var(--color-slate);">
+            <p style="font-size: 48px; margin-bottom: 16px;">📝</p>
+            <p>文章即將上線，敬請期待。</p>
+          </div>
+        )}
+      </div>
     </div>
   </section>
 
-  <hr class="section-divider" />
+  <!-- ====== EVIDENCE LEVEL EXPLANATION ====== -->
+  <section class="section" style="background: white;">
+    <div class="container">
+      <div class="section-header centered">
+        <p style="font-family: var(--font-mono); font-size: 12px; color: var(--color-aqua); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px;">本站標準</p>
+        <h2 class="section-title">科學證據等級系統</h2>
+        <p class="section-subtitle">
+          每篇文章都會標示科學證據等級，讓你清楚知道這個說法有多少可靠研究支持。
+        </p>
+      </div>
 
-  <!-- ============ CTA BANNER ============ -->
-  <section class="section">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="cta-banner">
-        <p style="font-size: 0.78rem; letter-spacing: 0.1em; opacity: 0.7; margin-bottom: 0.5rem; font-weight: 500; text-transform: uppercase;">Science-backed Research</p>
-        <h2>探索氫水科學，做出聰明的健康決策</h2>
-        <p>不被廣告牽著走。讓論文告訴你真正的答案。</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="/blog" class="btn" style="background: white; color: var(--color-aqua-dark); border: 1.5px solid white;">瀏覽所有研究文章</a>
-          <a href="/categories" class="btn" style="background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.5);">按分類探索</a>
+      <div class="evidence-levels">
+        <div class="evidence-level-card strong reveal">
+          <div class="evidence-level-icon">✅</div>
+          <h3 class="evidence-level-title">強證據</h3>
+          <p class="evidence-level-desc">
+            多個隨機對照試驗（RCT）或系統性回顧支持，研究方法嚴謹，結果可重複。
+          </p>
+        </div>
+        <div class="evidence-level-card preliminary reveal reveal-delay-1">
+          <div class="evidence-level-icon">🔬</div>
+          <h3 class="evidence-level-title">初步證據</h3>
+          <p class="evidence-level-desc">
+            有 1-2 個 RCT 或多個觀察性研究支持，結果有希望但尚需更多大型研究確認。
+          </p>
+        </div>
+        <div class="evidence-level-card insufficient reveal reveal-delay-2">
+          <div class="evidence-level-icon">⚠️</div>
+          <h3 class="evidence-level-title">證據不足</h3>
+          <p class="evidence-level-desc">
+            現有研究以動物實驗或小樣本試驗為主，尚無足夠人體大型研究支持此說法。
+          </p>
+        </div>
+        <div class="evidence-level-card ineffective reveal reveal-delay-3">
+          <div class="evidence-level-icon">❌</div>
+          <h3 class="evidence-level-title">無效/誤導</h3>
+          <p class="evidence-level-desc">
+            現有研究顯示無效，或此說法與科學共識相悖，屬於誇大宣稱或誤導性資訊。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CTA BANNER ====== -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <h2>開始科學之旅</h2>
+        <p>
+          不信廣告，只信證據。瀏覽我們以科學為基礎的氫水研究整理。
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="/blog/" class="btn btn-primary">瀏覽所有文章</a>
+          <a href="/about/#methodology" class="btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.4); color: white;">
+            了解我們的方法論
+          </a>
         </div>
       </div>
     </div>

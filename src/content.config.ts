@@ -10,10 +10,12 @@ const posts = defineCollection({
     category: z.string().default('氫水科學'),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
-    author: z.string().default('H2 Water Lab'),
+    author: z.string().default('H₂ Water Lab'),
     draft: z.boolean().default(false),
-    lang: z.enum(['zh', 'en']).default('zh'),
+    lang: z.enum(['zh', 'en', 'ja']).default('zh'),
+    // Evidence level: scientific credibility marker
     evidenceLevel: z.enum(['strong', 'preliminary', 'insufficient', 'ineffective']).optional(),
+    // Estimated reading time in minutes
     readingTime: z.number().optional(),
   }),
 });

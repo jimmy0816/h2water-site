@@ -3,16 +3,54 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('posts', ({ data }) => !data.draft);
-const categories = [...new Set(posts.map(p => p.data.category))];
+const categories = [...new Set(posts.map(p => p.data.category))].filter(Boolean);
 ---
 
-<BaseLayout title="文章分類" description="H2 Water Lab 文章分類">
-  <h1 style="font-size: 2rem; font-weight: 700; color: #0369A1; margin-bottom: 2rem;">文章分類</h1>
-  <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-    {categories.map(cat => (
-      <a href={`/categories/${cat}`} style="padding: 0.75rem 1.5rem; background: #EFF6FF; color: #0369A1; border-radius: 8px; font-weight: 500; text-decoration: none; border: 1px solid #BFDBFE;">
-        {cat}（{posts.filter(p => p.data.category === cat).length} 篇）
-      </a>
-    ))}
+<BaseLayout
+  title="文章分類 — H₂ Water Lab"
+  description="H₂ Water Lab 文章分類 — 瀏覽所有氫水科學主題：氫水科學、研究文獻、健康應用、產品評測、常見問題。"
+>
+  <!-- Header -->
+  <div style="background: linear-gradient(135deg, #F1F5F9 0%, #E0F2FE 50%, #FAFBFC 100%); padding: var(--space-5xl) 0 var(--space-3xl);">
+    <div class="container">
+      <p style="font-family: var(--font-mono); font-size: 12px; color: var(--color-aqua); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;">文章分類</p>
+      <h1 style="font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: var(--color-ink); margin-bottom: 12px; letter-spacing: -0.02em;">
+        瀏覽所有主題
+      </h1>
+      <p style="font-size: 16px; color: var(--color-slate);">按主題深入探索氫水科學的各個面向。</p>
+    </div>
   </div>
+
+  <section class="section-sm">
+    <div class="container">
+      {categories.length > 0 ? (
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-lg);">
+          {categories.map((cat, i) => {
+            const count = posts.filter(p => p.data.category === cat).length;
+            return (
+              <a
+                href={`/categories/${cat}/`}
+                class={`reveal reveal-delay-${(i % 4) + 1}`}
+                style="display: flex; flex-direction: column; gap: 8px; padding: var(--space-xl); background: white; border: 1px solid var(--color-silver); border-radius: var(--radius-md); text-decoration: none; color: inherit; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;"
+                onmouseover="this.style.boxShadow='var(--shadow-lg)'; this.style.transform='translateY(-2px)'; this.style.borderColor='var(--color-aqua)';"
+                onmouseout="this.style.boxShadow=''; this.style.transform=''; this.style.borderColor='var(--color-silver)';"
+              >
+                <span style="font-size: 17px; font-weight: 700; color: var(--color-ink);">{cat}</span>
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--color-aqua); background: var(--color-mist); padding: 2px 8px; border-radius: 9999px; width: fit-content;">{count} 篇</span>
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        <div style="text-align: center; padding: 80px 40px; color: var(--color-slate);">
+          <p style="font-size: 48px; margin-bottom: 16px;">📂</p>
+          <p>暫無分類，文章即將上線。</p>
+        </div>
+      )}
+
+      <div style="margin-top: var(--space-3xl);">
+        <a href="/blog/" class="btn btn-secondary">← 返回所有文章</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -6,13 +6,13 @@ export interface Props {
   description: string;
   pubDate: Date;
   updatedDate?: Date;
-  category: string;
-  tags: string[];
-  author: string;
+  category?: string;
+  tags?: string[];
   image?: string;
-  lang?: string;
+  author?: string;
   evidenceLevel?: 'strong' | 'preliminary' | 'insufficient' | 'ineffective';
   readingTime?: number;
+  lang?: string;
 }
 
 const {
@@ -20,188 +20,243 @@ const {
   description,
   pubDate,
   updatedDate,
-  category,
-  tags,
-  author,
+  category = '氫水科學',
+  tags = [],
   image,
-  lang = 'zh',
+  author = 'H₂ Water Lab',
   evidenceLevel,
   readingTime,
+  lang = 'zh-TW',
 } = Astro.props;
 
-const evidenceMap = {
-  strong:      { emoji: '✅', label: '強證據',   class: 'strong' },
-  preliminary: { emoji: '🔬', label: '初步證據', class: 'preliminary' },
-  insufficient:{ emoji: '⚠️', label: '證據不足', class: 'insufficient' },
-  ineffective: { emoji: '❌', label: '無效',     class: 'ineffective' },
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+const evidenceBadgeClass = {
+  strong: 'strong',
+  preliminary: 'preliminary',
+  insufficient: 'insufficient',
+  ineffective: 'ineffective',
 };
 
-const badge = evidenceLevel ? evidenceMap[evidenceLevel] : null;
+const evidenceBadgeLabel = {
+  strong: '✅ 強證據',
+  preliminary: '🔬 初步證據',
+  insufficient: '⚠️ 證據不足',
+  ineffective: '❌ 無效/誤導',
+};
 
-const jsonLdArticle = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: title,
-  description,
-  author: { '@type': 'Organization', name: author },
-  datePublished: pubDate.toISOString(),
-  dateModified: (updatedDate ?? pubDate).toISOString(),
-  publisher: {
-    '@type': 'Organization',
-    name: 'H2 Water Lab',
-    url: 'https://h2water.co',
-  },
+const evidenceBadgeDesc = {
+  strong: '多個嚴謹 RCT 或系統性回顧支持此結論',
+  preliminary: '初步 RCT 或觀察性研究支持，尚需更多研究確認',
+  insufficient: '現有研究以動物或小樣本為主，人體大型研究不足',
+  ineffective: '現有研究顯示無效，或與科學共識相悖',
 };
 ---
 
 <BaseLayout
-  title={title}
+  title={`${title} — H₂ Water Lab`}
   description={description}
-  canonical={Astro.url.href}
-  ogImage={image}
+  image={image}
+  type="article"
+  pubDate={pubDate}
   lang={lang}
-  article={{
-    publishedTime: pubDate.toISOString(),
-    modifiedTime: (updatedDate ?? pubDate).toISOString(),
-    author,
-    tags,
-  }}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLdArticle)} slot="head" />
-
-  <!-- ===== ARTICLE HERO ===== -->
-  <section class="hero-section inner-page" style="min-height: 50vh;">
-    <div class="max-w-6xl mx-auto px-6 w-full">
-      <!-- Breadcrumb -->
-      <nav style="font-size: 0.8rem; color: var(--color-slate); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-        <a href="/" style="color: var(--color-slate); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--color-aqua)'" onmouseout="this.style.color='var(--color-slate)'">首頁</a>
-        <span style="opacity: 0.4;">›</span>
-        <a href="/blog" style="color: var(--color-slate); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--color-aqua)'" onmouseout="this.style.color='var(--color-slate)'">文章</a>
-        <span style="opacity: 0.4;">›</span>
-        <span style="color: var(--color-aqua);">{category}</span>
-      </nav>
-
-      <!-- Tags -->
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-        <a href={`/categories/${category}`} class="tag tag-aqua">{category}</a>
-        {tags.map(t => <span class="tag tag-slate">#{t}</span>)}
-      </div>
-
-      <!-- Title -->
-      <h1 style="font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 700; color: var(--color-ink); line-height: 1.3; max-width: 800px; margin-bottom: 1.25rem;">
-        {title}
-      </h1>
-
-      <!-- Meta Row -->
-      <div class="post-meta">
-        {badge && (
-          <span class={`evidence-badge ${badge.class}`}>
-            {badge.emoji} {badge.label}
-          </span>
-        )}
-        <span class="post-meta-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          {pubDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </span>
-        {updatedDate && (
-          <span class="post-meta-item" style="color: var(--color-aqua);">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            更新 {updatedDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </span>
-        )}
-        {readingTime && (
-          <span class="post-meta-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            約 {readingTime} 分鐘
-          </span>
-        )}
-        <span class="post-meta-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          {author}
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== ARTICLE BODY: TOC + CONTENT ===== -->
-  <div class="max-w-6xl mx-auto px-6 py-12">
-    <div class="flex gap-10 items-start">
-
-      <!-- Sticky TOC (Desktop only) -->
-      <aside class="hidden lg:block w-56 flex-shrink-0">
-        <div class="toc-sidebar" id="toc">
-          <div class="toc-title">目錄</div>
-          <div id="toc-links">
+  <!-- Post Layout Wrapper -->
+  <div style="padding-block: var(--space-3xl) var(--space-7xl);">
+    <div class="post-layout">
+      <!-- TOC (desktop sticky left) -->
+      <aside class="post-toc" aria-label="文章目錄" id="toc-container">
+        <div class="toc-title">目錄</div>
+        <nav id="toc-nav">
+          <ul class="toc-list" id="toc-list">
             <!-- Populated by JS -->
-          </div>
-        </div>
+          </ul>
+        </nav>
       </aside>
 
       <!-- Article Content -->
-      <article class="flex-1 min-w-0">
-        <div class="prose-article" id="article-content">
+      <article class="post-content">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="麵包屑">
+          <a href="/">首頁</a>
+          <span class="breadcrumb-sep">/</span>
+          <a href="/blog/">科學文章</a>
+          <span class="breadcrumb-sep">/</span>
+          {category && <a href={`/categories/${category}/`}>{category}</a>}
+        </nav>
+
+        <!-- Post Header -->
+        <header class="post-header">
+          <div class="post-header-meta">
+            {category && (
+              <a href={`/categories/${category}/`} class="tag">{category}</a>
+            )}
+            {evidenceLevel && (
+              <span
+                class={`evidence-badge ${evidenceBadgeClass[evidenceLevel]}`}
+                title={evidenceBadgeDesc[evidenceLevel]}
+              >
+                {evidenceBadgeLabel[evidenceLevel]}
+              </span>
+            )}
+            {tags.slice(0, 2).map(tag => (
+              <span class="tag tag-mint">{tag}</span>
+            ))}
+          </div>
+
+          <h1 class="post-title">{title}</h1>
+          <p class="post-description">{description}</p>
+
+          <div style="display: flex; align-items: center; gap: var(--space-lg); margin-top: var(--space-xl); flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-aqua-light), var(--color-aqua)); display: flex; align-items: center; justify-content: center; font-size: 14px;">💧</div>
+              <span style="font-size: 14px; font-weight: 500; color: var(--color-graphite);">{author}</span>
+            </div>
+            <time datetime={pubDate.toISOString()} style="font-family: var(--font-mono); font-size: 13px; color: var(--color-slate);">
+              {formatDate(pubDate)}
+            </time>
+            {updatedDate && (
+              <span style="font-size: 13px; color: var(--color-slate);">
+                更新：<time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
+              </span>
+            )}
+            {readingTime && (
+              <span style="font-family: var(--font-mono); font-size: 13px; color: var(--color-slate);">
+                📖 {readingTime} 分鐘
+              </span>
+            )}
+          </div>
+        </header>
+
+        <!-- Article Body -->
+        <div class="prose" id="article-body">
           <slot />
         </div>
 
-        <!-- ===== FEEDBACK ===== -->
-        <div style="margin-top: 4rem; padding: 2rem; background: var(--color-mist); border-radius: var(--radius-md); border: 1px solid var(--color-silver); text-align: center;">
-          <p style="font-size: 1rem; font-weight: 500; color: var(--color-ink); margin-bottom: 1rem;">這篇文章有幫助嗎？</p>
-          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <button class="btn btn-primary" style="font-size: 0.85rem; padding: 8px 20px;">👍 有幫助</button>
-            <button class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 20px;">💬 有疑問</button>
+        <!-- Post Footer -->
+        <footer class="post-footer">
+          <!-- Disclaimer -->
+          <div class="citation-card" style="margin-bottom: var(--space-2xl);">
+            <div class="citation-journal">免責聲明</div>
+            <p class="citation-conclusion">
+              ⚠️ 本文內容僅供科普資訊參考，不構成醫療建議、診斷或治療方案。文中提及的研究結果僅代表特定研究的發現，
+              不代表普遍適用性。健康問題請諮詢有執照的醫療專業人員。
+            </p>
           </div>
-          <p style="font-size: 0.8rem; color: var(--color-slate); margin-top: 1rem;">
-            你的回饋幫助我們持續改善內容品質
-          </p>
-        </div>
 
-        <!-- ===== Related Articles ===== -->
-        <div style="margin-top: 3rem;">
-          <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--color-ink); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--color-mist);">相關文章</h3>
-          <div style="text-align: center; padding: 2rem; color: var(--color-slate);">
-            <a href="/blog" class="btn btn-secondary">瀏覽更多研究文章 →</a>
+          <!-- Feedback -->
+          <div class="post-feedback">
+            <p>這篇文章對你有幫助嗎？</p>
+            <div class="feedback-buttons">
+              <button class="feedback-btn" data-feedback="helpful">
+                👍 有幫助
+              </button>
+              <button class="feedback-btn" data-feedback="not-helpful">
+                👎 需要改進
+              </button>
+            </div>
           </div>
-        </div>
+
+          <!-- Tags -->
+          {tags.length > 0 && (
+            <div style="margin-bottom: var(--space-2xl);">
+              <div style="font-size: 13px; color: var(--color-slate); margin-bottom: 10px;">相關標籤：</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                {tags.map(tag => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Related Articles placeholder -->
+          <div>
+            <h2 style="font-size: 20px; font-weight: 700; color: var(--color-ink); margin-bottom: var(--space-xl);">繼續閱讀</h2>
+            <a href="/blog/" class="btn btn-secondary">← 返回所有文章</a>
+          </div>
+        </footer>
       </article>
     </div>
   </div>
+</BaseLayout>
 
-  <!-- TOC Script -->
-  <script>
-    // Build TOC from article headings
-    const article = document.getElementById('article-content');
-    const tocLinks = document.getElementById('toc-links');
+<script>
+  // Auto-generate TOC from h2/h3 in article body
+  function buildTOC() {
+    const article = document.getElementById('article-body');
+    const tocList = document.getElementById('toc-list');
+    if (!article || !tocList) return;
 
-    if (article && tocLinks) {
-      const headings = article.querySelectorAll('h2, h3');
-      headings.forEach((h, idx) => {
-        const id = h.id || `heading-${idx}`;
-        if (!h.id) h.id = id;
+    const headings = article.querySelectorAll('h2, h3');
+    if (headings.length < 2) {
+      const tocContainer = document.getElementById('toc-container');
+      if (tocContainer) tocContainer.style.display = 'none';
+      return;
+    }
 
-        const link = document.createElement('a');
-        link.href = `#${id}`;
-        link.className = 'toc-link';
-        link.textContent = h.textContent || '';
-        if (h.tagName === 'H3') {
-          link.style.paddingLeft = '1.5rem';
-          link.style.fontSize = '0.77rem';
-        }
-        tocLinks.appendChild(link);
-      });
+    const items: string[] = [];
+    headings.forEach((heading, index) => {
+      const id = heading.id || `heading-${index}`;
+      if (!heading.id) heading.id = id;
+      const isH3 = heading.tagName === 'H3';
+      items.push(
+        `<li class="${isH3 ? 'toc-h3' : ''}">
+          <a href="#${id}" class="toc-link">${heading.textContent}</a>
+        </li>`
+      );
+    });
 
-      // Intersection observer for active state
-      const allLinks = tocLinks.querySelectorAll('.toc-link');
-      const observer = new IntersectionObserver(entries => {
+    tocList.innerHTML = items.join('');
+  }
+
+  // Highlight active TOC item on scroll
+  function initTOCHighlight() {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    if (!tocLinks.length) return;
+
+    const headingEls = Array.from(
+      document.querySelectorAll('#article-body h2, #article-body h3')
+    ) as HTMLElement[];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            allLinks.forEach(l => l.classList.remove('active'));
-            const active = tocLinks.querySelector(`a[href="#${entry.target.id}"]`);
-            active?.classList.add('active');
+            tocLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+            activeLink?.classList.add('active');
           }
         });
-      }, { rootMargin: '-80px 0px -70% 0px' });
+      },
+      {
+        rootMargin: `-${64 + 20}px 0px -70% 0px`,
+        threshold: 0,
+      }
+    );
 
-      headings.forEach(h => observer.observe(h));
-    }
-  </script>
-</BaseLayout>
+    headingEls.forEach(el => observer.observe(el));
+  }
+
+  // Feedback buttons
+  function initFeedback() {
+    document.querySelectorAll('.feedback-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const value = (btn as HTMLElement).dataset.feedback;
+        document.querySelectorAll('.feedback-btn').forEach(b => {
+          b.classList.remove('active');
+          (b as HTMLElement).style.borderColor = '';
+          (b as HTMLElement).style.color = '';
+        });
+        (btn as HTMLElement).style.borderColor = 'var(--color-aqua)';
+        (btn as HTMLElement).style.color = 'var(--color-aqua)';
+        (btn as HTMLElement).style.fontWeight = '600';
+      });
+    });
+  }
+
+  buildTOC();
+  initTOCHighlight();
+  initFeedback();
+</script>

@@ -1,218 +1,280 @@
 ---
+import '../styles/global.css';
+
 export interface Props {
   title: string;
   description?: string;
-  canonical?: string;
-  ogImage?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  pubDate?: Date;
   lang?: string;
-  article?: {
-    publishedTime?: string;
-    modifiedTime?: string;
-    author?: string;
-    tags?: string[];
-  };
 }
 
 const {
   title,
-  description = 'H2 Water Lab — 氫水科學研究室，用科學數據解答你對氫水健康的每一個疑問',
-  canonical = Astro.url.href,
-  ogImage = '/og-default.png',
-  lang = 'zh',
-  article,
+  description = 'H₂ Water Lab 氫水科學研究室 — 以嚴謹的科學態度評估氫水相關研究，提供台灣讀者正確可驗證的健康資訊。',
+  image = '/og-default.png',
+  type = 'website',
+  pubDate,
+  lang = 'zh-TW',
 } = Astro.props;
 
-import '../styles/global.css';
-
-const siteName = 'H2 Water Lab | 氫水科學研究室';
+const siteName = 'H₂ Water Lab 氫水科學研究室';
 const siteUrl = 'https://h2water.co';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
-const jsonLdWebSite = {
+const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: siteName,
-  url: siteUrl,
+  '@type': type === 'article' ? 'MedicalWebPage' : 'WebSite',
+  name: title,
   description,
-  inLanguage: lang === 'en' ? 'en' : 'zh-TW',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: `${siteUrl}/search?q={search_term_string}`,
-    'query-input': 'required name=search_term_string',
+  url: canonicalUrl,
+  publisher: {
+    '@type': 'Organization',
+    name: siteName,
+    url: siteUrl,
   },
+  ...(pubDate && { datePublished: pubDate.toISOString() }),
 };
 
-const jsonLdOrganization = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'H2 Water Lab',
-  alternateName: '氫水研究室',
-  url: siteUrl,
-  logo: `${siteUrl}/logo.png`,
-  sameAs: [],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    contactType: 'customer service',
-    availableLanguage: ['Chinese', 'Japanese'],
-  },
-};
+const navLinks = [
+  { href: '/blog/', label: '科學文章' },
+  { href: '/categories/', label: '分類' },
+  { href: '/about/', label: '關於' },
+];
 ---
 
 <!DOCTYPE html>
-<html lang={lang === 'en' ? 'en' : 'zh-TW'}>
+<html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title} | {siteName}</title>
+  <meta name="theme-color" content="#0891B2" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+
+  <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href={canonical} />
+  <link rel="canonical" href={canonicalUrl} />
 
   <!-- Open Graph -->
-  <meta property="og:type" content={article ? 'article' : 'website'} />
-  <meta property="og:title" content={`${title} | ${siteName}`} />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonical} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={new URL(image, siteUrl).toString()} />
   <meta property="og:site_name" content={siteName} />
-  <meta property="og:image" content={`${siteUrl}${ogImage}`} />
-  {article?.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
-  {article?.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+  <meta property="og:locale" content="zh_TW" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={`${title} | ${siteName}`} />
+  <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+  <meta name="twitter:image" content={new URL(image, siteUrl).toString()} />
 
-  <!-- i18n alternates (reserved) -->
-  <!-- <link rel="alternate" hreflang="zh-TW" href={`${siteUrl}${Astro.url.pathname}`} /> -->
-  <!-- <link rel="alternate" hreflang="ja" href={`${siteUrl}/ja${Astro.url.pathname}`} /> -->
-
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
-
-  <!-- Google Fonts: preconnect -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono&display=swap"
+    rel="stylesheet"
+  />
 
-  <!-- JSON-LD: WebSite -->
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLdWebSite)} />
-  <!-- JSON-LD: Organization -->
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLdOrganization)} />
-
-  <slot name="head" />
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head>
-<body class="min-h-screen flex flex-col" style="background-color: #FAFBFC; color: #1E293B;">
+<body>
+  <!-- Skip Nav -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 btn btn-primary">
+    跳到主要內容
+  </a>
 
   <!-- Navigation -->
-  <header class="nav-header" id="nav-header">
-    <div class="max-w-6xl mx-auto px-6 w-full flex items-center justify-between">
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 no-underline group">
-        <div style="line-height: 1;">
-          <span class="nav-logo-h2">H₂</span>
-          <span class="nav-logo-text"> Water Lab</span>
-        </div>
-        <span style="font-size: 0.7rem; color: var(--color-slate); letter-spacing: 0.06em; font-weight: 300; display: block; margin-top: 2px;">氫水研究室</span>
+  <header class="site-header" id="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="H₂ Water Lab 首頁">
+        <span class="h2">H₂</span>
+        <span class="lab">Water Lab</span>
       </a>
 
-      <!-- Nav Links (Desktop) -->
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="/" class="nav-link">首頁</a>
-        <a href="/blog" class="nav-link">研究文章</a>
-        <a href="/categories" class="nav-link">分類瀏覽</a>
-        <a href="/blog" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.8rem;">探索研究</a>
+      <nav class="site-nav" aria-label="主要導航">
+        {navLinks.map(link => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+        <a href="/blog/" class="btn btn-primary btn-sm">開始閱讀</a>
       </nav>
 
-      <!-- Mobile Nav Toggle (simple) -->
-      <button class="md:hidden flex flex-col gap-1.5 p-2" id="mobile-menu-btn" aria-label="選單">
-        <span style="display:block; width:20px; height:2px; background: var(--color-graphite);"></span>
-        <span style="display:block; width:20px; height:2px; background: var(--color-graphite);"></span>
-        <span style="display:block; width:14px; height:2px; background: var(--color-graphite);"></span>
+      <button class="nav-toggle" id="nav-toggle" aria-label="開啟選單" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden absolute top-full left-0 right-0 border-t" style="background: rgba(250,251,252,0.98); backdrop-filter: blur(12px); border-color: var(--color-silver);">
-      <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-2">
-        <a href="/" class="nav-link py-2">首頁</a>
-        <a href="/blog" class="nav-link py-2">研究文章</a>
-        <a href="/categories" class="nav-link py-2">分類瀏覽</a>
-      </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="flex-1" style="padding-top: 64px;">
+  <!-- Mobile Nav Overlay -->
+  <div id="mobile-nav" class="mobile-nav" aria-hidden="true">
+    <nav>
+      {navLinks.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+      <a href="/blog/" class="btn btn-primary" style="margin-top: 8px; justify-content: center;">開始閱讀</a>
+    </nav>
+  </div>
+
+  <!-- Main -->
+  <main id="main-content" tabindex="-1" style="padding-top: var(--nav-height);">
     <slot />
   </main>
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
-
-        <!-- Brand Column -->
-        <div>
-          <div class="footer-brand">H₂ Water Lab</div>
-          <p class="footer-tagline" style="margin-top: 0.5rem;">
-            用科學，重新認識水<br />
-            <span style="opacity: 0.6;">Science-backed hydrogen water research</span>
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand -->
+        <div class="footer-brand">
+          <a href="/" class="site-logo" aria-label="H₂ Water Lab 首頁">
+            <span class="h2">H₂</span>
+            <span class="lab">Water Lab</span>
+          </a>
+          <p>
+            氫水科學研究室 — 用嚴謹的科學態度評估氫水研究，<br />
+            提供台灣讀者正確、可驗證的健康資訊。
           </p>
-          <p class="footer-tagline" style="margin-top: 1rem; font-size: 0.78rem;">
-            整合 PubMed 臨床研究，<br />幫你做出有根據的健康選擇。
+          <p style="margin-top: 12px; font-size: 13px; color: #475569;">
+            台灣先行・預留日文 i18n
           </p>
         </div>
 
-        <!-- Navigation Column -->
+        <!-- Content Categories -->
         <div>
-          <div class="footer-heading">內容</div>
-          <a href="/blog" class="footer-link">所有文章</a>
-          <a href="/categories" class="footer-link">分類瀏覽</a>
-          <a href="/categories/氫水科學" class="footer-link">氫水科學</a>
-          <a href="/blog" class="footer-link">產品評測</a>
-          <a href="/blog" class="footer-link">使用指南</a>
+          <div class="footer-col-title">科學文章</div>
+          <ul class="footer-links">
+            <li><a href="/categories/hydrogen-science/">氫水科學</a></li>
+            <li><a href="/categories/research-literature/">研究文獻</a></li>
+            <li><a href="/categories/health-application/">健康應用</a></li>
+            <li><a href="/categories/product-review/">產品評測</a></li>
+            <li><a href="/categories/faq/">常見問題</a></li>
+          </ul>
         </div>
 
-        <!-- Contact Column -->
+        <!-- About & Legal -->
         <div>
-          <div class="footer-heading">關於</div>
-          <a href="/" class="footer-link">關於本站</a>
-          <a href="/" class="footer-link">編輯方針</a>
-          <a href="/" class="footer-link">引用資料</a>
-          <div style="margin-top: 1rem;">
-            <div class="footer-heading" style="margin-bottom: 0.5rem;">聯絡</div>
-            <p style="font-size: 0.8rem; color: var(--color-slate);">research@h2water.co</p>
-          </div>
+          <div class="footer-col-title">關於本站</div>
+          <ul class="footer-links">
+            <li><a href="/about/">關於 H₂ Water Lab</a></li>
+            <li><a href="/about/#methodology">我們的方法論</a></li>
+            <li><a href="/about/#evidence">證據等級說明</a></li>
+            <li><a href="/privacy/">隱私政策</a></li>
+            <li><a href="/rss.xml">RSS 訂閱</a></li>
+          </ul>
         </div>
       </div>
 
-      <!-- Footer Bottom -->
       <div class="footer-bottom">
-        <span>© {new Date().getFullYear()} H2 Water Lab ／ 氫水研究室</span>
-        <span style="font-size: 0.75rem; opacity: 0.6;">本站內容僅供教育參考，不構成醫療建議。</span>
+        <p class="footer-copyright">
+          © {new Date().getFullYear()} H₂ Water Lab 氫水科學研究室. All rights reserved.
+        </p>
+        <p class="footer-disclaimer">
+          ⚠️ 本站內容僅供科普資訊參考，不構成醫療建議。健康問題請諮詢醫療專業人員。
+        </p>
       </div>
     </div>
   </footer>
-
-  <!-- Nav Scroll Script -->
-  <script>
-    const navHeader = document.getElementById('nav-header');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    // Scroll blur
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        navHeader?.classList.add('scrolled');
-      } else {
-        navHeader?.classList.remove('scrolled');
-      }
-    });
-
-    // Mobile menu toggle
-    mobileMenuBtn?.addEventListener('click', () => {
-      mobileMenu?.classList.toggle('hidden');
-    });
-  </script>
 </body>
 </html>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: rgba(250, 251, 252, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-silver);
+    padding: var(--space-lg) var(--gutter) var(--space-xl);
+    z-index: 90;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .mobile-nav.open {
+    display: block;
+  }
+
+  .mobile-nav nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .mobile-nav a {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-graphite);
+    text-decoration: none;
+    padding: var(--space-xs) 0;
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .mobile-nav a:last-of-type {
+    border-bottom: none;
+  }
+</style>
+
+<script>
+  // Nav scroll effect
+  const header = document.getElementById('site-header');
+  function updateHeader() {
+    if (window.scrollY > 64) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+
+  // Mobile nav toggle
+  const toggle = document.getElementById('nav-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  toggle?.addEventListener('click', () => {
+    const isOpen = mobileNav?.classList.contains('open');
+    mobileNav?.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if (revealEls.length && window.matchMedia('(min-width: 768px)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('visible'));
+  }
+</script>
