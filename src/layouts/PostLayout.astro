@@ -64,11 +64,11 @@ const evidenceBadgeDesc = {
   lang={lang}
 >
   <!-- Post Layout Wrapper -->
-  <div style="padding-block: var(--space-3xl) var(--space-7xl);">
+  <div style="padding-block: var(--space-12) var(--space-24);">
     <div class="post-layout">
       <!-- TOC (desktop sticky left) -->
       <aside class="post-toc" aria-label="文章目錄" id="toc-container">
-        <div class="toc-title">目錄</div>
+        <div class="toc-heading">目錄</div>
         <nav id="toc-nav">
           <ul class="toc-list" id="toc-list">
             <!-- Populated by JS -->
@@ -109,23 +109,30 @@ const evidenceBadgeDesc = {
           <h1 class="post-title">{title}</h1>
           <p class="post-description">{description}</p>
 
-          <div style="display: flex; align-items: center; gap: var(--space-lg); margin-top: var(--space-xl); flex-wrap: wrap;">
+          <div class="article-meta">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-aqua-light), var(--color-aqua)); display: flex; align-items: center; justify-content: center; font-size: 14px;">💧</div>
-              <span style="font-size: 14px; font-weight: 500; color: var(--color-graphite);">{author}</span>
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary-200), var(--color-primary-500)); display: flex; align-items: center; justify-content: center; font-size: 14px;">💧</div>
+              <span style="font-size: 14px; font-weight: 500; color: var(--color-secondary-700);">{author}</span>
             </div>
-            <time datetime={pubDate.toISOString()} style="font-family: var(--font-mono); font-size: 13px; color: var(--color-slate);">
+            <span class="article-meta-sep">·</span>
+            <time datetime={pubDate.toISOString()} style="font-family: var(--font-family-mono); font-size: 13px; color: var(--color-secondary-400);">
               {formatDate(pubDate)}
             </time>
             {updatedDate && (
-              <span style="font-size: 13px; color: var(--color-slate);">
-                更新：<time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
-              </span>
+              <>
+                <span class="article-meta-sep">·</span>
+                <span style="font-size: 13px; color: var(--color-secondary-400);">
+                  更新：<time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
+                </span>
+              </>
             )}
             {readingTime && (
-              <span style="font-family: var(--font-mono); font-size: 13px; color: var(--color-slate);">
-                📖 {readingTime} 分鐘
-              </span>
+              <>
+                <span class="article-meta-sep">·</span>
+                <span style="font-family: var(--font-family-mono); font-size: 13px; color: var(--color-secondary-400);">
+                  📖 {readingTime} 分鐘
+                </span>
+              </>
             )}
           </div>
         </header>
@@ -138,7 +145,7 @@ const evidenceBadgeDesc = {
         <!-- Post Footer -->
         <footer class="post-footer">
           <!-- Disclaimer -->
-          <div class="citation-card" style="margin-bottom: var(--space-2xl);">
+          <div class="citation-card" style="margin-bottom: var(--space-8);">
             <div class="citation-journal">免責聲明</div>
             <p class="citation-conclusion">
               ⚠️ 本文內容僅供科普資訊參考，不構成醫療建議、診斷或治療方案。文中提及的研究結果僅代表特定研究的發現，
@@ -161,8 +168,8 @@ const evidenceBadgeDesc = {
 
           <!-- Tags -->
           {tags.length > 0 && (
-            <div style="margin-bottom: var(--space-2xl);">
-              <div style="font-size: 13px; color: var(--color-slate); margin-bottom: 10px;">相關標籤：</div>
+            <div style="margin-bottom: var(--space-8);">
+              <div style="font-size: 13px; color: var(--color-secondary-400); margin-bottom: 10px;">相關標籤：</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                 {tags.map(tag => (
                   <span class="tag">{tag}</span>
@@ -173,7 +180,7 @@ const evidenceBadgeDesc = {
 
           <!-- Related Articles placeholder -->
           <div>
-            <h2 style="font-size: 20px; font-weight: 700; color: var(--color-ink); margin-bottom: var(--space-xl);">繼續閱讀</h2>
+            <h2 style="font-size: 20px; font-weight: 700; color: var(--color-secondary-800); margin-bottom: var(--space-6);">繼續閱讀</h2>
             <a href="/blog/" class="btn btn--secondary btn--md">← 返回所有文章</a>
           </div>
         </footer>

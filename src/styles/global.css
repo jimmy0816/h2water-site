@@ -62,8 +62,8 @@
   --font-family-display: 'Cormorant Garamond', 'Zen Old Mincho', serif;
 
   --text-display: 3rem;
-  --text-h1: 2rem;
-  --text-h2: 1.5rem;
+  --text-h1: 2.25rem;
+  --text-h2: 1.75rem;
   --text-h3: 1.25rem;
   --text-h4: 1rem;
   --text-body-lg: 1.125rem;
@@ -764,16 +764,16 @@ a { color: inherit; text-decoration: none; }
 .prose h2 {
   font-size: var(--text-h2); font-weight: 700;
   color: var(--color-secondary-900);
-  margin-top: var(--space-12); margin-bottom: var(--space-4);
-  letter-spacing: 0.01em; line-height: 1.4;
+  margin-top: var(--space-16); margin-bottom: var(--space-6);
+  letter-spacing: 0.01em; line-height: 1.35;
   padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--color-secondary-200);
   scroll-margin-top: 96px;
 }
 .prose h3 {
-  font-size: var(--text-h3); font-weight: 500;
-  color: var(--color-secondary-800);
-  margin-top: var(--space-8); margin-bottom: var(--space-3);
+  font-size: var(--text-h3); font-weight: 600;
+  color: var(--color-secondary-700);
+  margin-top: var(--space-10); margin-bottom: var(--space-4);
   scroll-margin-top: 96px;
 }
 .prose h4 {
