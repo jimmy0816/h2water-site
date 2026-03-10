@@ -50,6 +50,7 @@ function evidenceBadgeLabel(level?: string) {
   <section class="section-sm">
     <div class="container">
       <div class="blog-layout">
+
         <!-- Main Content -->
         <div>
           <!-- Filter tags row (mobile visible) -->
@@ -79,7 +80,7 @@ function evidenceBadgeLabel(level?: string) {
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
                     <a href={`/categories/${post.data.category}/`} class="tag">{post.data.category}</a>
                     {post.data.evidenceLevel && (
-                      <span class={`evidence-badge ${evidenceBadgeClass(post.data.evidenceLevel)}`}>
+                      <span class={`evidence-badge evidence-badge--${evidenceBadgeClass(post.data.evidenceLevel)}`}>
                         {evidenceBadgeLabel(post.data.evidenceLevel)}
                       </span>
                     )}
@@ -150,7 +151,7 @@ function evidenceBadgeLabel(level?: string) {
                 { cls: 'ineffective', label: '❌ 無效/誤導', desc: '研究顯示無效' },
               ].map(item => (
                 <div style="display: flex; flex-direction: column; gap: 4px;">
-                  <span class={`evidence-badge ${item.cls}`} style="width: fit-content;">{item.label}</span>
+                  <span class={`evidence-badge evidence-badge--${item.cls}`} style="width: fit-content;">{item.label}</span>
                   <span style="font-size: 12px; color: var(--color-slate); padding-left: 2px;">{item.desc}</span>
                 </div>
               ))}

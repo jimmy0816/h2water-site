@@ -90,45 +90,45 @@ const navLinks = [
 </head>
 <body>
   <!-- Skip Nav -->
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 btn btn-primary">
+  <a href="#main-content" class="sr-only focus:not-sr-only">
     跳到主要內容
   </a>
 
   <!-- Navigation -->
-  <header class="site-header" id="site-header">
+  <header class="nav-header" id="site-header">
     <div class="container">
-      <a href="/" class="site-logo" aria-label="H₂ Water Lab 首頁">
-        <span class="h2">H₂</span>
-        <span class="lab">Water Lab</span>
-      </a>
+      <div class="nav-inner">
+        <a href="/" class="nav-logo" aria-label="H₂ Water Lab 首頁">
+          <span class="nav-logo-h2">H₂</span>
+          <span>Water Lab</span>
+        </a>
 
-      <nav class="site-nav" aria-label="主要導航">
-        {navLinks.map(link => (
-          <a href={link.href}>{link.label}</a>
-        ))}
-        <a href="/blog/" class="btn btn-primary btn-sm">開始閱讀</a>
-      </nav>
+        <ul class="nav-links" aria-label="主要導航">
+          {navLinks.map(link => (
+            <li><a href={link.href} class="nav-link">{link.label}</a></li>
+          ))}
+          <li><a href="/blog/" class="btn btn--primary btn--sm">開始閱讀</a></li>
+        </ul>
 
-      <button class="nav-toggle" id="nav-toggle" aria-label="開啟選單" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        <button class="nav-hamburger" id="nav-toggle" aria-label="開啟選單" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- Mobile Nav Overlay -->
-  <div id="mobile-nav" class="mobile-nav" aria-hidden="true">
-    <nav>
-      {navLinks.map(link => (
-        <a href={link.href}>{link.label}</a>
-      ))}
-      <a href="/blog/" class="btn btn-primary" style="margin-top: 8px; justify-content: center;">開始閱讀</a>
-    </nav>
+  <div id="mobile-nav" class="nav-mobile-menu" aria-hidden="true">
+    {navLinks.map(link => (
+      <a href={link.href} class="nav-mobile-link">{link.label}</a>
+    ))}
+    <a href="/blog/" class="btn btn--primary btn--lg" style="margin-top: var(--space-4);">開始閱讀</a>
   </div>
 
   <!-- Main -->
-  <main id="main-content" tabindex="-1" style="padding-top: var(--nav-height);">
+  <main id="main-content" tabindex="-1">
     <slot />
   </main>
 
@@ -138,15 +138,15 @@ const navLinks = [
       <div class="footer-grid">
         <!-- Brand -->
         <div class="footer-brand">
-          <a href="/" class="site-logo" aria-label="H₂ Water Lab 首頁">
-            <span class="h2">H₂</span>
-            <span class="lab">Water Lab</span>
+          <a href="/" class="nav-logo" aria-label="H₂ Water Lab 首頁" style="color: #FFFFFF;">
+            <span class="nav-logo-h2">H₂</span>
+            <span>Water Lab</span>
           </a>
           <p>
             氫水科學研究室 — 用嚴謹的科學態度評估氫水研究，<br />
             提供台灣讀者正確、可驗證的健康資訊。
           </p>
-          <p style="margin-top: 12px; font-size: 13px; color: #475569;">
+          <p style="font-size: 13px; color: var(--color-secondary-500);">
             台灣先行・預留日文 i18n
           </p>
         </div>
@@ -177,10 +177,10 @@ const navLinks = [
       </div>
 
       <div class="footer-bottom">
-        <p class="footer-copyright">
+        <p>
           © {new Date().getFullYear()} H₂ Water Lab 氫水科學研究室. All rights reserved.
         </p>
-        <p class="footer-disclaimer">
+        <p>
           ⚠️ 本站內容僅供科普資訊參考，不構成醫療建議。健康問題請諮詢醫療專業人員。
         </p>
       </div>
@@ -188,58 +188,6 @@ const navLinks = [
   </footer>
 </body>
 </html>
-
-<style>
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-
-  .mobile-nav {
-    display: none;
-    position: fixed;
-    top: var(--nav-height);
-    left: 0;
-    right: 0;
-    background: rgba(250, 251, 252, 0.97);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--color-silver);
-    padding: var(--space-lg) var(--gutter) var(--space-xl);
-    z-index: 90;
-    box-shadow: var(--shadow-lg);
-  }
-
-  .mobile-nav.open {
-    display: block;
-  }
-
-  .mobile-nav nav {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .mobile-nav a {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--color-graphite);
-    text-decoration: none;
-    padding: var(--space-xs) 0;
-    border-bottom: 1px solid var(--color-mist);
-  }
-
-  .mobile-nav a:last-of-type {
-    border-bottom: none;
-  }
-</style>
 
 <script>
   // Nav scroll effect
@@ -260,17 +208,29 @@ const navLinks = [
   toggle?.addEventListener('click', () => {
     const isOpen = mobileNav?.classList.contains('open');
     mobileNav?.classList.toggle('open');
+    toggle.classList.toggle('open');
     toggle.setAttribute('aria-expanded', String(!isOpen));
+    mobileNav?.setAttribute('aria-hidden', String(isOpen));
+  });
+
+  // Close mobile nav on link click
+  mobileNav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      toggle?.classList.remove('open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+    });
   });
 
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
-  if (revealEls.length && window.matchMedia('(min-width: 768px)').matches) {
+  if (revealEls.length) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            entry.target.classList.add('revealed');
             observer.unobserve(entry.target);
           }
         });
@@ -278,7 +238,5 @@ const navLinks = [
       { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
     );
     revealEls.forEach(el => observer.observe(el));
-  } else {
-    revealEls.forEach(el => el.classList.add('visible'));
   }
 </script>

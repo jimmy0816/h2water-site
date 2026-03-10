@@ -95,7 +95,7 @@ const evidenceBadgeDesc = {
             )}
             {evidenceLevel && (
               <span
-                class={`evidence-badge ${evidenceBadgeClass[evidenceLevel]}`}
+                class={`evidence-badge evidence-badge--${evidenceBadgeClass[evidenceLevel]}`}
                 title={evidenceBadgeDesc[evidenceLevel]}
               >
                 {evidenceBadgeLabel[evidenceLevel]}
@@ -174,7 +174,7 @@ const evidenceBadgeDesc = {
           <!-- Related Articles placeholder -->
           <div>
             <h2 style="font-size: 20px; font-weight: 700; color: var(--color-ink); margin-bottom: var(--space-xl);">繼續閱讀</h2>
-            <a href="/blog/" class="btn btn-secondary">← 返回所有文章</a>
+            <a href="/blog/" class="btn btn--secondary btn--md">← 返回所有文章</a>
           </div>
         </footer>
       </article>

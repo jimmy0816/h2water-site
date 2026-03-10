@@ -82,7 +82,7 @@ function evidenceBadgeLabel(level?: string) {
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
                 <a href={`/categories/${post.data.category}/`} class="tag">{post.data.category}</a>
                 {post.data.evidenceLevel && (
-                  <span class={`evidence-badge ${evidenceBadgeClass(post.data.evidenceLevel)}`}>
+                  <span class={`evidence-badge evidence-badge--${evidenceBadgeClass(post.data.evidenceLevel)}`}>
                     {evidenceBadgeLabel(post.data.evidenceLevel)}
                   </span>
                 )}
@@ -115,7 +115,7 @@ function evidenceBadgeLabel(level?: string) {
       </div>
 
       <div style="margin-top: var(--space-3xl);">
-        <a href="/blog/" class="btn btn-secondary">← 返回所有文章</a>
+        <a href="/blog/" class="btn btn--secondary btn--md">← 返回所有文章</a>
       </div>
     </div>
   </section>
