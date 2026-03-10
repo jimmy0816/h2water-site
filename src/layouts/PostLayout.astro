@@ -214,7 +214,7 @@ const relatedPosts = allPosts
                 {relatedPosts.map(post => {
                   const ec = post.data.evidenceLevel ? evidenceBadgeColors[post.data.evidenceLevel] : null;
                   return (
-                    <a href={`/posts/${post.slug}/`} class="related-card">
+                    <a href={`/blog/${post.slug}/`} class="related-card">
                       <div class="related-card-thumb">
                         {post.data.image ? (
                           <img src={post.data.image} alt={post.data.title} loading="lazy" />
