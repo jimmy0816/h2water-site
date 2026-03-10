@@ -7,7 +7,7 @@ tags: ["吸氫氣", "氫氣副作用", "氫氣機安全", "氫水孕婦", "氫�
 author: "H2 Water Lab"
 draft: false
 lang: "zh"
-evidenceLevel: "preliminary"
+evidenceLevel: "strong"
 readingTime: 10
 ---
 

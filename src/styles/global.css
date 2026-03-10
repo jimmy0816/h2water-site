@@ -312,6 +312,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   overflow: hidden;
   background-color: var(--color-secondary-50);
+  padding-bottom: 128px;
 }
 
 .hero-bg {
@@ -1073,7 +1074,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.85;
+  opacity: 0.2;
 }
 
 /* Section header */
@@ -1137,7 +1138,19 @@ a { color: inherit; text-decoration: none; }
 .evidence-level-card.preliminary { border-left: 4px solid var(--color-evidence-preliminary); }
 .evidence-level-card.insufficient { border-left: 4px solid var(--color-evidence-insufficient); }
 .evidence-level-card.ineffective { border-left: 4px solid var(--color-evidence-ineffective); }
-.evidence-level-icon { font-size: 1.75rem; line-height: 1; }
+.evidence-level-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.evidence-level-card.strong .evidence-level-icon      { background: rgba(5, 150, 105, 0.1); }
+.evidence-level-card.preliminary .evidence-level-icon  { background: rgba(37, 99, 235, 0.1); }
+.evidence-level-card.insufficient .evidence-level-icon { background: rgba(217, 119, 6, 0.1); }
+.evidence-level-card.ineffective .evidence-level-icon  { background: rgba(220, 38, 38, 0.1); }
 .evidence-level-title { font-size: var(--text-h4); font-weight: 700; color: var(--color-secondary-800); }
 .evidence-level-desc { font-size: var(--text-body-sm); color: var(--color-secondary-500); line-height: 1.7; }
 

@@ -5,6 +5,7 @@ pubDate: 2026-03-10
 category: "選購評測"
 tags: ["氫水杯", "氫水機", "氫水選購", "氫水杯推薦", "家用氫水機"]
 author: "H2 Water Lab"
+evidenceLevel: "preliminary"
 draft: false
 lang: "zh"
 readingTime: 9

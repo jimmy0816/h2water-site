@@ -5,6 +5,7 @@ pubDate: 2026-03-10
 category: "選購評測"
 tags: ["氫氣機選購", "氫氧機", "純氫機", "PEM", "氫氣機推薦"]
 author: "H2 Water Lab"
+evidenceLevel: "preliminary"
 draft: false
 lang: "zh"
 readingTime: 11
