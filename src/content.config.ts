@@ -13,6 +13,8 @@ const posts = defineCollection({
     author: z.string().default('H2 Water Lab'),
     draft: z.boolean().default(false),
     lang: z.enum(['zh', 'en']).default('zh'),
+    evidenceLevel: z.enum(['strong', 'preliminary', 'insufficient', 'ineffective']).optional(),
+    readingTime: z.number().optional(),
   }),
 });
 

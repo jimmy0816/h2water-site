@@ -1,43 +1,740 @@
+/* ============================================
+   H2 Water Lab — Global CSS Design System
+   日系清淨 × 科學信任
+   ============================================ */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400&display=swap');
+
 @import "tailwindcss";
 
+/* ============================================
+   CSS Custom Properties (Design Tokens)
+   ============================================ */
 :root {
-  --color-water: #0EA5E9;
-  --color-water-light: #7DD3FC;
-  --color-water-dark: #0369A1;
-  --color-bg: #F8FBFF;
-  --color-text: #0F172A;
+  /* Primary — 水藍系 */
+  --color-aqua: #0891B2;
+  --color-aqua-light: #22D3EE;
+  --color-aqua-dark: #155E75;
+
+  /* Neutral — 日系冷白灰 */
+  --color-snow: #FAFBFC;
+  --color-mist: #F1F5F9;
+  --color-silver: #CBD5E1;
+  --color-slate: #64748B;
+  --color-graphite: #1E293B;
+  --color-ink: #0F172A;
+
+  /* Accent */
+  --color-mint: #5EEAD4;
+  --color-amber: #F59E0B;
+  --color-coral: #FB7185;
+
+  /* Science Trust */
+  --color-paper: #3B82F6;
+  --color-evidence: #22C55E;
+  --color-caution: #F97316;
+
+  /* Typography */
+  --font-display: 'Zen Kaku Gothic New', 'Noto Sans TC', sans-serif;
+  --font-heading: 'Noto Sans TC', sans-serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 8px 25px rgba(15, 23, 42, 0.08);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 100px;
+
+  /* Spacing */
+  --section-gap: 6rem;
 }
 
+/* ============================================
+   Base Styles
+   ============================================ */
 html {
-  font-family: 'Noto Sans TC', 'system-ui', sans-serif;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  font-family: var(--font-body);
+  background-color: var(--color-snow);
+  color: var(--color-graphite);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
   min-height: 100vh;
+  background-color: var(--color-snow);
+  color: var(--color-graphite);
 }
 
-.prose h2, .prose h3 {
-  color: var(--color-water-dark);
+/* ============================================
+   Navigation
+   ============================================ */
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.prose a {
-  color: var(--color-water);
-  text-decoration-color: var(--color-water-light);
+.nav-header.scrolled {
+  background: rgba(250, 251, 252, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--color-silver);
 }
 
+.nav-logo-h2 {
+  color: var(--color-aqua);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.nav-logo-text {
+  color: var(--color-graphite);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-slate);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-aqua);
+  border-bottom-color: var(--color-aqua);
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+.hero-section {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #F1F5F9 0%, #E0F2FE 50%, #FAFBFC 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0 60px;
+}
+
+.hero-section.inner-page {
+  min-height: 50vh;
+  padding: 80px 0 40px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--color-slate);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+
+/* Water Molecule SVG Decoration */
+.water-molecule-svg {
+  position: absolute;
+  right: -2%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40%;
+  max-width: 500px;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* ============================================
+   Cards
+   ============================================ */
+.card {
+  background: var(--color-snow);
+  border: 1px solid var(--color-silver);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.card-mist {
+  background: var(--color-mist);
+}
+
+/* Article Card */
+.article-card {
+  background: var(--color-snow);
+  border: 1px solid var(--color-silver);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.article-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Feature Card */
+.feature-card {
+  background: var(--color-snow);
+  border: 1px solid var(--color-silver);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.feature-title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 0.75rem;
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  color: var(--color-slate);
+  line-height: 1.7;
+}
+
+/* ============================================
+   Tags / Pills
+   ============================================ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.tag:hover {
+  opacity: 0.8;
+}
+
+.tag-aqua {
+  background: rgba(8, 145, 178, 0.1);
+  color: var(--color-aqua-dark);
+}
+
+.tag-mint {
+  background: rgba(94, 234, 212, 0.2);
+  color: #0F766E;
+}
+
+.tag-slate {
+  background: var(--color-mist);
+  color: var(--color-slate);
+}
+
+/* ============================================
+   Evidence Badge（核心差異化元件）
+   ============================================ */
+.evidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  color: white;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.evidence-badge.strong {
+  background-color: var(--color-evidence);  /* #22C55E */
+}
+
+.evidence-badge.preliminary {
+  background-color: var(--color-paper);     /* #3B82F6 */
+}
+
+.evidence-badge.insufficient {
+  background-color: var(--color-caution);   /* #F97316 */
+}
+
+.evidence-badge.ineffective {
+  background-color: #EF4444;
+}
+
+/* Evidence Level Legend Block */
+.evidence-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.evidence-legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--color-snow);
+  border: 1px solid var(--color-silver);
+  border-radius: var(--radius-md);
+}
+
+.evidence-legend-desc {
+  font-size: 0.85rem;
+  color: var(--color-slate);
+  line-height: 1.5;
+}
+
+/* ============================================
+   CTA Buttons
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--color-aqua);
+  color: white;
+  border: 1.5px solid var(--color-aqua);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-aqua-dark);
+  border-color: var(--color-aqua-dark);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-aqua);
+  border: 1.5px solid var(--color-aqua);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-aqua);
+  color: white;
+}
+
+/* ============================================
+   CTA Banner Section
+   ============================================ */
+.cta-banner {
+  background: linear-gradient(135deg, var(--color-aqua-dark) 0%, var(--color-aqua) 100%);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+  color: white;
+}
+
+.cta-banner h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: white;
+}
+
+.cta-banner p {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+/* ============================================
+   Article / Prose Styles
+   ============================================ */
+.prose-article {
+  font-size: 1.0625rem;  /* 17px */
+  line-height: 1.85;
+  color: var(--color-graphite);
+  max-width: 720px;
+}
+
+.prose-article h2 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-mist);
+}
+
+.prose-article h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-article p {
+  margin-bottom: 1.25rem;
+}
+
+.prose-article a {
+  color: var(--color-aqua);
+  text-decoration-color: rgba(8, 145, 178, 0.3);
+  text-decoration-thickness: 1px;
+  transition: color 0.2s ease;
+}
+
+.prose-article a:hover {
+  color: var(--color-aqua-dark);
+}
+
+.prose-article ul,
+.prose-article ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose-article li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-article strong {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+/* Data / Numbers */
+.prose-article code,
+.data-value {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-mist);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--color-aqua-dark);
+}
+
+/* Tables */
+.prose-article table,
 .prose table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
 }
 
+.prose-article th,
 .prose table th {
-  background-color: #EFF6FF;
-  color: var(--color-water-dark);
+  background-color: var(--color-mist);
+  color: var(--color-ink);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--color-silver);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
 }
 
-.prose table td, .prose table th {
-  border: 1px solid #BFDBFE;
-  padding: 0.5rem 0.75rem;
+.prose-article td,
+.prose table td {
+  border: 1px solid var(--color-silver);
+  padding: 0.625rem 0.875rem;
+  vertical-align: top;
+}
+
+.prose-article tr:nth-child(even) td {
+  background-color: rgba(241, 245, 249, 0.5);
+}
+
+/* ============================================
+   Citation Card（論文引用）
+   ============================================ */
+.citation {
+  background: #F8FAFF;
+  border-left: 4px solid var(--color-paper);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--color-graphite);
+}
+
+.citation-journal {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-paper);
+  font-weight: 400;
+  display: block;
+  margin-bottom: 0.375rem;
+  letter-spacing: 0.02em;
+}
+
+.citation-conclusion {
+  color: var(--color-graphite);
+  margin: 0;
+}
+
+/* ============================================
+   Sticky TOC (Table of Contents)
+   ============================================ */
+.toc-sidebar {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: var(--color-mist);
+  border: 1px solid var(--color-silver);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+}
+
+.toc-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-slate);
+  margin-bottom: 0.75rem;
+}
+
+.toc-link {
+  display: block;
+  color: var(--color-slate);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-left: 2px solid transparent;
+  padding-left: 0.75rem;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+  margin-bottom: 0.125rem;
+}
+
+.toc-link:hover,
+.toc-link.active {
+  color: var(--color-aqua);
+  border-left-color: var(--color-aqua);
+}
+
+/* ============================================
+   Post Meta
+   ============================================ */
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-slate);
+  margin-bottom: 1.5rem;
+}
+
+.post-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.site-footer {
+  background-color: var(--color-ink);
+  color: var(--color-slate);
+  padding: 3.5rem 0 1.5rem;
+  margin-top: var(--section-gap);
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-snow);
+  margin-bottom: 0.5rem;
+}
+
+.footer-tagline {
+  font-size: 0.8rem;
+  color: var(--color-slate);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+.footer-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-silver);
+  margin-bottom: 1rem;
+}
+
+.footer-link {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--color-slate);
+  text-decoration: none;
+  padding: 0.2rem 0;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--color-aqua-light);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--color-slate);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ============================================
+   Section Utilities
+   ============================================ */
+.section {
+  padding: 5rem 0;
+}
+
+.section-sm {
+  padding: 3rem 0;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-slate);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--color-silver);
+  margin: 0;
+}
+
+/* ============================================
+   Scrollbar (Webkit)
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-mist);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-silver);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-slate);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 640px) {
+  .hero-section {
+    min-height: 60vh;
+    padding: 80px 0 40px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .water-molecule-svg {
+    display: none;
+  }
+
+  .nav-header {
+    height: 52px;
+  }
 }
