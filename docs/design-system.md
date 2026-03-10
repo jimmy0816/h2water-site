@@ -606,5 +606,84 @@
 
 ---
 
-*H₂ Water Lab Design System v1.0 — Generated 2026-03-10*  
-*Based on reverse engineering of: the-tawaraya.jp, telhaclarke.com.au, studiocbr.jp, gokokumai.co.jp, seavege-stand.com*
+---
+
+## v4 修訂（定稿）— 2026-03-10
+
+> 經四輪迭代定稿：初版→v2(留白+動效)→v3(icon日系化)→v4(Emoji替換+字重回調)
+
+### Icon 原則（全站適用）
+
+| # | 原則 | 說明 |
+|---|------|------|
+| 1 | **能用文字就不用 icon** | 時鐘 icon → `12 min` 純文字、書本 icon → `引用 50 篇` 文字 badge |
+| 2 | **線條 1.3px + 平切端點** | `strokeWidth: 1.3`、`strokeLinecap: "square"`，Mon（家紋）風格 |
+| 3 | **紋樣化分子圖示** | 三圓交疊（HHO）、1px 描邊、opacity 0.25 作為背景紋理 |
+| 4 | **borderRadius 收緊** | 卡片 6px、按鈕/badge 3px |
+| 5 | **全站最多 2 種 icon** | 分子紋（裝飾）+ 箭頭（導航），其餘一律用文字 |
+
+### ⛔ Emoji 禁止（不可違反）
+
+| 問題 | 說明 |
+|------|------|
+| 跨平台不一致 | ✅🔬⚠️❌ 在 iOS/Android/Windows 外觀完全不同 |
+| 彩度爆表 | 全彩 emoji 在極低彩度頁面上視覺突兀 |
+| 語義模糊 | 🔬 是顯微鏡還是望遠鏡？不同文化解讀不同 |
+
+**替代方案：幾何紋 SVG（填滿度 = 證據強度）**
+
+| 等級 | 圖形 | SVG 邏輯 | 色碼 |
+|------|------|---------|------|
+| 強證據 | ◉ 實心圓 + 外圈 | `<circle r=5.5/>` + `<circle r=2 fill/>` | `#059669` (green) |
+| 初步證據 | ◐ 半填充圓 | `<circle r=5.5/>` + 半圓 `<path>` fill | `#2563EB` (blue) |
+| 證據不足 | ◠ 缺口開放圓 | 開放弧 `<path>` 無 fill | `#D97706` (amber) |
+| 無效 | ⊘ 斜線穿越圓 | `<circle r=5.5/>` + 對角 `<line>` | `#DC2626` (red) |
+
+統一規格：`viewBox="0 0 14 14"` · `strokeWidth="1.3"` · `strokeLinecap="square"` · 單色 `currentColor`
+
+### Badge 場景分工
+
+| 場景 | 圖示 | 底色 | 原因 |
+|------|------|------|------|
+| 文章卡片標籤 | ✓ 幾何紋 | ✓ 有底色 | 標籤語境需要跳出辨識 |
+| 側邊欄圖例 | ✓ 幾何紋 | ✓ 有底色 | 教學用途，底色輔助分區 |
+| 文章頁頂部 | ✓ 幾何紋 | ✓ 有底色 | 大尺寸場景 |
+| 文章內文行內 | ✓ 幾何紋 | ✗ 無底色 | 底色會打斷閱讀節奏 |
+| Tooltip/說明 | ✗ 無圖示 | ✗ 無底色 | 底線 + 色字即可 |
+| Email 電子報 | ✗ 無圖示 | ✗ 無底色 | 純色字，最大相容性 |
+
+### 字重回調（v3→v4，全站 +1 級）
+
+| 元素 | v3 | v4 |
+|------|----|----|
+| Logo | 300 | 400 |
+| Nav 連結 | 400 | 500 |
+| Tab (inactive) | 300 | 400 |
+| Tab (active) | 500 | 600 |
+| Hero 副標 | 300 | 400 |
+| 卡片標題 | 600 | 700 |
+| 卡片摘要 | 300 | 400 |
+| 日期/meta | 300 | 400 |
+| 「閱讀」連結 | 400 | 500 |
+| 側欄分類 (inactive) | 300 | 400 |
+| 側欄分類 (active) | 500 | 600 |
+| CTA/訂閱按鈕 | 500 | 600 |
+| Newsletter 標題 | 500 | 600 |
+| Section heading | 600 | 700 |
+
+### 文字色階回調（v3→v4，全站 +1 級）
+
+| 元素 | v3 | v4 |
+|------|----|----|
+| Hero 副標 | sec-400 `#94A3B8` | sec-500 `#64748B` |
+| 卡片摘要 | sec-500 `#64748B` | sec-600 `#475569` |
+| 日期/meta | sec-300 `#CBD5E1` | sec-400 `#94A3B8` |
+| 側欄分類 | sec-500 `#64748B` | sec-600 `#475569` |
+| Footer 文字 | sec-300 `#CBD5E1` | sec-400 `#94A3B8` |
+| Footer 連結 | sec-300 `#CBD5E1` | sec-400 `#94A3B8` |
+
+---
+
+*H₂ Water Lab Design System v1.0 → v4 — Updated 2026-03-10*  
+*Based on reverse engineering of: the-tawaraya.jp, telhaclarke.com.au, studiocbr.jp, gokokumai.co.jp, seavege-stand.com*  
+*v4 JSX reference: `docs/design-system-v4.jsx`*
