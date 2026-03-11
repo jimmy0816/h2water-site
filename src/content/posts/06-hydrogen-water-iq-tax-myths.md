@@ -29,7 +29,11 @@ lang: "zh"
 
 他們發現：**氫氣（H₂）能選擇性清除細胞內毒性最強的活性氧——羥自由基（·OH），但不干擾具有生理功能的其他活性氧**（如超氧自由基 O₂⁻ 和 H₂O₂，這些在免疫系統中有正常角色）。
 
-> Ohsawa I et al. *Hydrogen acts as a therapeutic antioxidant by selectively reducing cytotoxic oxygen radicals.* Nat Med. 2007;13(6):688-94. PMID: [17486089](https://pubmed.ncbi.nlm.nih.gov/17486089/)
+<div class="citation-card">
+  <div class="citation-journal">Nature Medicine · 2007</div>
+  <p class="citation-conclusion">H₂ 能選擇性清除細胞內毒性最強的羥自由基（·OH），但不干擾具有生理功能的其他活性氧，奠定分子氫選擇性抗氧化的研究基礎。</p>
+  <a href="https://doi.org/10.1038/nm1577" class="citation-doi">DOI: 10.1038/nm1577 →</a>
+</div>
 
 這個「選擇性」是氫氣與其他抗氧化劑（維生素 C、維生素 E）的最大差異——後者是廣效抗氧化，容易連同需要的活性氧一起清除。
 
@@ -49,11 +53,19 @@ lang: "zh"
 
 分析結果顯示，富氫水（HRW）在三酸甘油酯（TG）和總膽固醇（TC）上有**輕度下降趨勢**，且干預時間越長效果越明顯。
 
-> Jamialahmadi H et al. *The Effects of Hydrogen-Rich Water on Blood Lipid Profiles in Metabolic Disorders Clinical Trials: A Systematic Review and Meta-analysis.* Int J Endocrinol Metab. 2024;22(3):e148600. DOI: [10.5812/ijem-148600](https://brieflands.com/journals/ijem/articles/148600)
+<div class="citation-card">
+  <div class="citation-journal">International Journal of Endocrinology and Metabolism · 2024</div>
+  <p class="citation-conclusion">系統性回顧與統合分析：8 項雙盲 RCT 共 357 名代謝疾病患者，富氫水對三酸甘油脂（TG）和總膽固醇（TC）有輕度下降趨勢。</p>
+  <a href="https://doi.org/10.5812/ijem-148600" class="citation-doi">DOI: 10.5812/ijem-148600 →</a>
+</div>
 
 同年（2024 年）另一篇發表於《Antioxidants》的 3 個月 RCT，也在代謝症候群族群中觀察到電解氫水對某些代謝指標的影響：
 
-> Moribe R et al. *Health Effects of Electrolyzed Hydrogen Water for the Metabolic Syndrome and Pre-Metabolic Syndrome: A 3-Month Randomized Controlled Trial and Subsequent Analyses.* Antioxidants. 2024;13(2):145.
+<div class="citation-card">
+  <div class="citation-journal">Antioxidants · 2024</div>
+  <p class="citation-conclusion">代謝症候群及前期患者的 3 個月 RCT：電解氫水對血脂、氧化壓力等代謝指標有改善，並提供較長期的安全性觀察資料。</p>
+  <a href="https://doi.org/10.3390/antiox13020145" class="citation-doi">DOI: 10.3390/antiox13020145 →</a>
+</div>
 
 另一項 2024 年發表的系統性回顧（PMC: 10816294），分析了 25 篇氫水人體研究，涵蓋運動能力、肝功能、心血管疾病、COVID-19、氧化壓力等面向，結論是：**初步臨床試驗結果令人鼓舞，但需要更大樣本的研究來確認。**
 
@@ -114,7 +126,7 @@ lang: "zh"
 - Botek 等人的隨機雙盲交叉試驗顯示**疲勞改善效果不明確**
 - 不同研究的 H₂ 濃度、給予時機（運動前/運動後）和受試族群差異，可能導致結果分歧
 
-**結論：運動恢復是目前氫水最多研究支持的應用領域，但研究間差異存在，需等待更多高品質 RCT。◐ 初步正向，尚需確認。**
+**結論：運動恢復是目前氫水最多研究支持的應用領域，但研究間差異存在，需等待更多高品質 RCT。<span class="evidence-badge evidence-badge--preliminary">初步證據</span> 初步正向，尚需確認。**
 
 ---
 
@@ -178,7 +190,7 @@ lang: "zh"
 - 如果你是**健身族群**，希望改善運動後恢復，有初步 RCT 支持，可以合理嘗試
 - 如果你有**代謝症候群（高血脂、高血糖）**，搭配醫師治療輔助使用，有一定科學依據，但效果輕微，不能替代藥物
 - 如果你是**一般健康成人**，想預防氧化壓力，理論基礎合理，但沒有強烈的必要性
-- 如果你期待**治療特定疾病**，氫水無法提供這個功能，請看醫師
+- 如果你期待**改善特定健康狀況**，氫水無法提供這個功能，請看醫師
 
 **你能確認機器或產品的氫氣濃度嗎？**
 
@@ -199,13 +211,13 @@ lang: "zh"
 
 最終結論：
 
-◉ **機制有科學根據**（選擇性清除羥自由基，Nature Medicine 2007 確立）
+<span class="evidence-badge evidence-badge--strong">強證據</span> **機制有科學根據**（選擇性清除羥自由基，Nature Medicine 2007 確立）
 
-◐ **人體效益初步正向**（多項 RCT 顯示有改善，但樣本小、效果有限）
+<span class="evidence-badge evidence-badge--preliminary">初步證據</span> **人體效益初步正向**（多項 RCT 顯示有改善，但樣本小、效果有限）
 
-◠ **部分應用仍需更多研究**（睡眠、美容、體重等）
+<span class="evidence-badge evidence-badge--insufficient">證據不足</span> **部分應用仍需更多研究**（睡眠、美容、體重等）
 
-⊘ **治療疾病的聲稱無科學支撐**，且涉及違法廣告
+<span class="evidence-badge evidence-badge--ineffective">無效</span> **改善健康狀況的聲稱無科學支撐**，且涉及違法廣告
 
 換句話說：**氫水不是智商稅，但它也絕對不是萬能藥。用正確的期待使用，它可能有輔助價值；如果你相信它能治病，那就進了另一種圈套。**
 
@@ -213,18 +225,41 @@ lang: "zh"
 
 ## 參考文獻
 
-1. Ohsawa I, Ishikawa M, Takahashi K, et al. *Hydrogen acts as a therapeutic antioxidant by selectively reducing cytotoxic oxygen radicals.* Nat Med. 2007;13(6):688-94. PMID: [17486089](https://pubmed.ncbi.nlm.nih.gov/17486089/) DOI: 10.1038/nm1577
+<div class="citation-card">
+  <div class="citation-journal">Nature Medicine · 2007</div>
+  <p class="citation-conclusion">H₂ 能選擇性清除毒性最強的羥自由基，奠定分子氫醫學研究的基礎。</p>
+  <a href="https://doi.org/10.1038/nm1577" class="citation-doi">DOI: 10.1038/nm1577 →</a>
+</div>
 
-2. Jamialahmadi H, Khalili-Tanha G, Rezaei-Tavirani M, Nazari E. *The Effects of Hydrogen-Rich Water on Blood Lipid Profiles in Metabolic Disorders Clinical Trials: A Systematic Review and Meta-analysis.* Int J Endocrinol Metab. 2024;22(3):e148600. [PMC11742746](https://pmc.ncbi.nlm.nih.gov/articles/PMC11742746/)
+<div class="citation-card">
+  <div class="citation-journal">International Journal of Endocrinology and Metabolism · 2024</div>
+  <p class="citation-conclusion">系統性回顧與統合分析：8 項雙盲 RCT 共 357 名代謝疾病患者，富氫水對血脂（TG、TC）有輕度改善趨勢。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/PMC11742746/" class="citation-doi">PMID: PMC11742746 →</a>
+</div>
 
-3. LeBaron TW, et al. *The Effects of 24-Week, High-Concentration Hydrogen-Rich Water on Body Composition, Blood Lipid Profiles and Inflammation Biomarkers in Men and Women with Metabolic Syndrome: A Randomized Controlled Trial.* Diabetes Metab Syndr Obes. 2020;13:889-896. PMID: [32273740](https://pubmed.ncbi.nlm.nih.gov/32273740/) DOI: 10.2147/DMSO.S240122
+<div class="citation-card">
+  <div class="citation-journal">Diabetes, Metabolic Syndrome and Obesity · 2020</div>
+  <p class="citation-conclusion">60 名代謝症候群患者飲用高濃度氫水 24 週，氧化壓力指標與部分炎症指標有顯著改善。</p>
+  <a href="https://doi.org/10.2147/DMSO.S240122" class="citation-doi">DOI: 10.2147/DMSO.S240122 →</a>
+</div>
 
-4. Dole M, et al. (systematic review authors). *Hydrogen Water: Extra Healthy or a Hoax?—A Systematic Review.* Int J Mol Sci. 2024;25(2):973. [PMC10816294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10816294/)
+<div class="citation-card">
+  <div class="citation-journal">International Journal of Molecular Sciences · 2024</div>
+  <p class="citation-conclusion">系統性回顧 25 篇氫水人體研究，初步臨床試驗結果令人鼓舞，但需要更大樣本的研究確認。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/PMC10816294/" class="citation-doi">PMID: PMC10816294 →</a>
+</div>
 
-5. Moribe R, Minami M, Hirota R, et al. *Health Effects of Electrolyzed Hydrogen Water for the Metabolic Syndrome and Pre-Metabolic Syndrome: A 3-Month Randomized Controlled Trial and Subsequent Analyses.* Antioxidants. 2024;13(2):145. DOI: 10.3390/antiox13020145
+<div class="citation-card">
+  <div class="citation-journal">Antioxidants · 2024</div>
+  <p class="citation-conclusion">3 個月 RCT 研究電解氫水對代謝症候群前期及代謝症候群患者的健康影響，多項代謝指標有改善。</p>
+  <a href="https://doi.org/10.3390/antiox13020145" class="citation-doi">DOI: 10.3390/antiox13020145 →</a>
+</div>
 
-6. Ara J, et al. *Drinking hydrogen water enhances endurance and relieves psychometric fatigue: a randomized, double-blind, placebo-controlled study.* Med Gas Res. 2019. PMID: [31251888](https://pubmed.ncbi.nlm.nih.gov/31251888/)
+<div class="citation-card">
+  <div class="citation-journal">Medical Gas Research · 2019</div>
+  <p class="citation-conclusion">隨機雙盲安慰劑對照試驗顯示，飲用氫水可改善最大攝氧量（VO₂max）並降低主觀疲勞感。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/31251888/" class="citation-doi">PMID: 31251888 →</a>
+</div>
 
 ---
 
-> **免責聲明**：本文僅為健康知識分享，不構成醫療建議。氫水相關產品的保健效果尚需更多大規模臨床研究驗證。如有健康疑慮，請諮詢合格醫療專業人員。本站與任何氫產品品牌無利益關係。

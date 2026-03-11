@@ -214,31 +214,71 @@ H₂ 無味無色，但高品質的「安慰劑水」（看起來一樣但不含
 
 ### 本文引用來源
 
-1. Ohsawa I, et al. Hydrogen acts as a therapeutic antioxidant by selectively reducing cytotoxic oxygen radicals. *Nature Medicine* (2007). **PMID: 17486089**. https://pubmed.ncbi.nlm.nih.gov/17486089/
+<div class="citation-card">
+  <div class="citation-journal">Nature Medicine · 2007</div>
+  <p class="citation-conclusion">分子氫選擇性清除羥自由基的里程碑論文，開啟了氫分子醫學研究領域。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/17486089/" class="citation-doi">PMID: 17486089 →</a>
+</div>
 
-2. Kjeldsen EW, et al. Molecular Hydrogen Therapy—A Review on Clinical Studies and Outcomes. *Molecules* (2023). **PMC10707987**. https://pmc.ncbi.nlm.nih.gov/articles/PMC10707987/
+<div class="citation-card">
+  <div class="citation-journal">Molecules · 2023</div>
+  <p class="citation-conclusion">彙整 81 項臨床試驗的全面性回顧，氫療法在心血管、神經、代謝等多領域有初步正向訊號，但多數研究樣本偏小。</p>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10707987/" class="citation-doi">文章連結 →</a>
+</div>
 
-3. Dehkordi MH, et al. The Effects of Hydrogen-Rich Water on Blood Lipid Profiles in Metabolic Disorders Clinical Trials: A Systematic Review and Meta-analysis. *Iranian Journal of Endocrinology and Metabolism* (2024). **PMC11742746**. https://pmc.ncbi.nlm.nih.gov/articles/PMC11742746/
+<div class="citation-card">
+  <div class="citation-journal">Iranian Journal of Endocrinology and Metabolism · 2024</div>
+  <p class="citation-conclusion">8 項雙盲 RCT 共 357 名代謝疾病患者的統合分析：富氫水對三酸甘油脂和總膽固醇有輕度下降趨勢。</p>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11742746/" class="citation-doi">文章連結 →</a>
+</div>
 
-4. Doke M, et al. Hydrogen Water: Extra Healthy or a Hoax?—A Systematic Review. *Int J Mol Sci* (2024). **PMC10816294**. https://pmc.ncbi.nlm.nih.gov/articles/PMC10816294/
+<div class="citation-card">
+  <div class="citation-journal">International Journal of Molecular Sciences · 2024</div>
+  <p class="citation-conclusion">系統性回顧 25 篇氫水人體研究，涵蓋運動、肝功能、心血管等多面向，初步結果令人鼓舞但需更大規模研究確認。</p>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10816294/" class="citation-doi">文章連結 →</a>
+</div>
 
-5. Sim M, et al. Hydrogen-rich water reduces inflammatory responses and prevents apoptosis of peripheral blood cells in healthy adults: a randomized, double-blind, controlled trial. *Sci Rep* (2020). **PMID: 32699287**. https://pubmed.ncbi.nlm.nih.gov/32699287/
+<div class="citation-card">
+  <div class="citation-journal">Scientific Reports · 2020</div>
+  <p class="citation-conclusion">38 名健康成人雙盲 RCT：飲用氫水 4 週後 NF-κB 相關促炎基因系統性下調，抗氧化能力有改善趨勢。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/32699287/" class="citation-doi">PMID: 32699287 →</a>
+</div>
 
-6. Korovljev D, et al. The Effects of 24-Week, High-Concentration Hydrogen-Rich Water on Body Composition, Blood Lipid Profiles and Inflammation Biomarkers in Men and Women with Metabolic Syndrome: A Randomized Controlled Trial. *Nutrients* (2020). **PMID: 32273740**. https://pubmed.ncbi.nlm.nih.gov/32273740/
+<div class="citation-card">
+  <div class="citation-journal">Nutrients · 2020</div>
+  <p class="citation-conclusion">60 名代謝症候群患者飲用高濃度氫水 24 週，腰圍、體脂比及部分炎症指標有顯著改善。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/32273740/" class="citation-doi">PMID: 32273740 →</a>
+</div>
 
-7. Wu C, et al. Molecular Hydrogen: an Emerging Therapeutic Medical Gas for Brain Disorders. *Mol Neurobiol* (2023). **PMID: 36571374**. https://pubmed.ncbi.nlm.nih.gov/36571374/
+<div class="citation-card">
+  <div class="citation-journal">Molecular Neurobiology · 2023</div>
+  <p class="citation-conclusion">分子氫在腦部疾病（阿茲海默症、帕金森氏症等）的機制綜述，清除 ROS 與抑制神經炎症為主要保護路徑。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/36571374/" class="citation-doi">PMID: 36571374 →</a>
+</div>
 
-8. Gu Y, et al. Role and mechanism of molecular hydrogen in the treatment of Parkinson's diseases. *Front Neurosci* (2025). **PMC12055789**. https://pmc.ncbi.nlm.nih.gov/articles/PMC12055789/
+<div class="citation-card">
+  <div class="citation-journal">Frontiers in Neuroscience · 2025</div>
+  <p class="citation-conclusion">帕金森氏症中分子氫的保護機制回顧：清除多巴胺神經元中的 ·OH、抑制 α-synuclein 聚集、調節腸-腦軸菌群。</p>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12055789/" class="citation-doi">文章連結 →</a>
+</div>
 
-9. Zhang Z, et al. Molecular Hydrogen Therapy: Mechanisms, Delivery Methods, Preventive, and Therapeutic Application. *Med Comm* (2025). **PMC12035766**. https://pmc.ncbi.nlm.nih.gov/articles/PMC12035766/
+<div class="citation-card">
+  <div class="citation-journal">Medical Communications · 2025</div>
+  <p class="citation-conclusion">分子氫的機制、給藥方式、預防與研究應用全面綜述，包含腸道菌群與氫分子互動的新興研究方向。</p>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12035766/" class="citation-doi">文章連結 →</a>
+</div>
 
-10. Arber N, et al. A Systematic Review of Molecular Hydrogen Therapy in Cancer Management. *Antioxidants* (2023). **PMC10152878**. https://pmc.ncbi.nlm.nih.gov/articles/PMC10152878/
+<div class="citation-card">
+  <div class="citation-journal">Antioxidants · 2023</div>
+  <p class="citation-conclusion">氫分子在癌症輔助研究的系統性回顧：作為輔助療法有初步改善信號，但尚無足夠 RCT 支持廣泛臨床應用。</p>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10152878/" class="citation-doi">文章連結 →</a>
+</div>
 
 ---
 
 ### 本文證據等級標注
 
-◐ **Preliminary（初步正向）**｜心血管代謝、神經保護、一般抗氧化  
-◉ **Strong（強）**｜H₂ 選擇性抗氧化的基礎機制（多項體外及動物研究一致支持）  
-◠ **Insufficient（不足）**｜阿茲海默症、IBD、癌症輔助治療（人體 RCT 有限）  
-⊘ **Ineffective（無效/尚未確立）**｜以氫療法「治療」任何疾病（超出現有證據範圍）
+<span class="evidence-badge evidence-badge--preliminary">初步證據</span> **Preliminary（初步正向）**｜心血管代謝、神經保護、一般抗氧化  
+<span class="evidence-badge evidence-badge--strong">強證據</span> **Strong（強）**｜H₂ 選擇性抗氧化的基礎機制（多項體外及動物研究一致支持）  
+<span class="evidence-badge evidence-badge--insufficient">證據不足</span> **Insufficient（不足）**｜阿茲海默症、IBD、癌症輔助治療（人體 RCT 有限）  
+<span class="evidence-badge evidence-badge--ineffective">無效</span> **Ineffective（無效/尚未確立）**｜以氫療法「治療」任何疾病（超出現有證據範圍）

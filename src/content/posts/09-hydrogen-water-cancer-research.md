@@ -134,7 +134,7 @@ PMID: 38067515 | [PubMed 連結](https://pubmed.ncbi.nlm.nih.gov/38067515/)
 
 [來源：衛生福利部國民健康署](https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=127&pid=14500)
 
-衛福部同時提醒：任何宣稱具有醫療效果的氫水產品，若未通過藥品或醫療器材的臨床試驗與主管機關許可，皆屬違規廣告，廠商可能面臨法律責任。
+衛福部同時提醒：任何宣稱具有醫效果果的氫水產品，若未通過藥品或醫療器材的臨床試驗與主管機關許可，皆屬違規廣告，廠商可能面臨法律責任。
 
 ---
 
@@ -176,7 +176,7 @@ PMID: 38067515 | [PubMed 連結](https://pubmed.ncbi.nlm.nih.gov/38067515/)
 
 **對宣稱「治癌」的氫水廣告保持高度警覺**
 
-台灣食藥署明確規定，食品與飲水類產品不得宣稱任何醫療效能。若廠商明示或暗示氫水能「治療癌症」、「消滅腫瘤」、「取代化療」，這是違法廣告，同時也是在欺騙最脆弱的消費族群。
+台灣食藥署明確規定，食品與飲水類產品不得宣稱任何醫效果能。若廠商明示或暗示氫水能「治療癌症」、「消滅腫瘤」、「取代化療」，這是違法廣告，同時也是在欺騙最脆弱的消費族群。
 
 **如果想嘗試氫水輔助，先和主治醫師討論**
 
@@ -202,13 +202,13 @@ PMID: 38067515 | [PubMed 連結](https://pubmed.ncbi.nlm.nih.gov/38067515/)
 
 ## 結論
 
-◠ **輔助效果初步可期**：幾項小規模研究顯示，氫水或吸氫氣可能有助於減輕癌症患者化放療期間的副作用，並改善生活品質。
+<span class="evidence-badge evidence-badge--insufficient">證據不足</span> **輔助效果初步可期**：幾項小規模研究顯示，氫水或吸氫氣可能有助於減輕癌症患者化放療期間的副作用，並改善生活品質。
 
-⊘ **直接治癌：無人體證據**：目前沒有任何設計嚴謹的大規模 RCT 證明氫水能縮小腫瘤或取代標準癌症治療。
+<span class="evidence-badge evidence-badge--ineffective">無效</span> **直接治癌：無人體證據**：目前沒有任何設計嚴謹的大規模 RCT 證明氫水能縮小腫瘤或取代標準癌症治療。
 
-⊘ **替代療法：明確危險**：以氫水取代正規治療，可能錯過最佳治療時機，危及生命。
+<span class="evidence-badge evidence-badge--ineffective">無效</span> **替代療法：明確危險**：以氫水取代正規治療，可能錯過最佳治療時機，危及生命。
 
-◠ **研究仍在進行中**：氫分子醫學是新興領域，值得關注後續更大規模的臨床試驗結果。
+<span class="evidence-badge evidence-badge--insufficient">證據不足</span> **研究仍在進行中**：氫分子醫學是新興領域，值得關注後續更大規模的臨床試驗結果。
 
 **底線：「研究顯示可能有輔助效果」和「可以治癌」之間，距離非常遙遠。**
 
@@ -216,14 +216,38 @@ PMID: 38067515 | [PubMed 連結](https://pubmed.ncbi.nlm.nih.gov/38067515/)
 
 ## 引用來源
 
-1. Ahmad et al. A Systematic Review of Molecular Hydrogen Therapy in Cancer Management. *Asian Pacific Journal of Cancer Prevention* (2023). PMID: [36708550](https://pubmed.ncbi.nlm.nih.gov/36708550/)
+<div class="citation-card">
+  <div class="citation-journal">Asian Pacific Journal of Cancer Prevention · 2023</div>
+  <p class="citation-conclusion">系統性回顧 677 篇文章、納入 27 項研究：H₂ 作為輔助療法在生存率、生活品質及腫瘤相關指標方面有初步改善，但需要更多大規模研究確認。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/36708550/" class="citation-doi">PMID: 36708550 →</a>
+</div>
 
-2. Chen et al. Hydrogen therapy can be used to control tumor progression and alleviate the adverse events of medications in patients with advanced non-small cell lung cancer. *Oncology Letters* (2021). PMC: [PMC7885710](https://pmc.ncbi.nlm.nih.gov/articles/PMC7885710/) | NCT03818347
+<div class="citation-card">
+  <div class="citation-journal">Oncology Letters · 2021</div>
+  <p class="citation-conclusion">58 名晚期非小細胞肺癌患者吸氫氣合併標準療法，無進展存活期優於對照組，化療副作用也有所降低；但樣本小且非隨機對照試驗。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/PMC7885710/" class="citation-doi">PMID: PMC7885710 →</a>
+</div>
 
-3. Kang et al. Effects of drinking hydrogen-rich water on the quality of life of patients treated with radiotherapy for liver tumors. *Medical Gas Research* (2011). PMID: [22146004](https://pubmed.ncbi.nlm.nih.gov/22146004/)
+<div class="citation-card">
+  <div class="citation-journal">Medical Gas Research · 2011</div>
+  <p class="citation-conclusion">49 名肝腫瘤放療患者的隨機雙盲 RCT：飲用氫水組生活品質顯著改善，氧化壓力指標降低，但兩組腫瘤縮小程度無差異。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/22146004/" class="citation-doi">PMID: 22146004 →</a>
+</div>
 
-4. Shang et al. Hydrogen-rich water exerts anti-tumor effects comparable to 5-fluorouracil in a colorectal cancer xenograft model. *Frontiers in Oncology* (2022). PMID: [35116114](https://pubmed.ncbi.nlm.nih.gov/35116114/)
+<div class="citation-card">
+  <div class="citation-journal">Frontiers in Oncology · 2022</div>
+  <p class="citation-conclusion">大腸癌異種移植小鼠模型：氫水的抗腫瘤效果與 5-FU 相當。此為動物實驗，結果不能直接外推至人體。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/35116114/" class="citation-doi">PMID: 35116114 →</a>
+</div>
 
-5. Johnsen et al. Molecular Hydrogen Therapy—A Review on Clinical Studies and Outcomes. *Molecules* (2023). PMID: [38067515](https://pubmed.ncbi.nlm.nih.gov/38067515/)
+<div class="citation-card">
+  <div class="citation-journal">Molecules · 2023</div>
+  <p class="citation-conclusion">彙整 81 項臨床試驗與 64 篇人體研究的全面性回顧，氫療法在心血管、癌症輔助、神經系統等多領域有初步正向訊號，但均需更大規模 RCT 確認。</p>
+  <a href="https://pubmed.ncbi.nlm.nih.gov/38067515/" class="citation-doi">PMID: 38067515 →</a>
+</div>
 
-6. 衛生福利部國民健康署〈氫水、氫氣可治癌嗎？〉（2021 年 9 月 30 日）。[hpa.gov.tw](https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=127&pid=14500)
+<div class="citation-card">
+  <div class="citation-journal">衛生福利部國民健康署 · 2021</div>
+  <p class="citation-conclusion">官方立場：氫水可能減輕部分化療副作用，但尚無足夠醫學實證能改善癌症本身，癌症患者應與醫師討論最適治療方式。</p>
+  <a href="https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=127&pid=14500" class="citation-doi">衛福部官方說明 →</a>
+</div>
